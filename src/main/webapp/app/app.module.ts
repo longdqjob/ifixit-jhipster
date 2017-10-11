@@ -12,8 +12,10 @@ import { IfixitEntityModule } from './entities/entity.module';
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 import { TreeModule } from 'angular-tree-component';
-
 // jhipster-needle-angular-add-module-import JHipster will add new module here
+
+//ThuyetLV
+
 
 import {
     JhiMainComponent,
@@ -36,8 +38,8 @@ import {
         IfixitAdminModule,
         IfixitAccountModule,
         IfixitEntityModule, 
-        TreeModule
         // jhipster-needle-angular-add-module JHipster will add new module here
+        TreeModule
     ],
     declarations: [
         JhiMainComponent,

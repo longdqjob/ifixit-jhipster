@@ -1,5 +1,7 @@
 package com.ifixit.webapp.web.rest.util;
 
+import java.text.Normalizer;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,6 +49,14 @@ public class WebUtil {
             jsonArray = (JSONArray) json;
         }
         return jsonArray;
+    }
+    
+    public static String removeAscii(String input) {
+        if (StringUtils.isBlank(input)) {
+            return input;
+        }
+        input = Normalizer.normalize(input, Normalizer.Form.NFD);
+        return input.replaceAll("[^\\x00-\\x7F]", "");
     }
 
 //    public JSONArray getJsonObjectOrJsonArray(Object object) {

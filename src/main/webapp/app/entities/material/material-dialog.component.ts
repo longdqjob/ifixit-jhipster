@@ -13,6 +13,7 @@ import { MaterialService } from './material.service';
 import { ItemType, ItemTypeService } from '../item-type';
 import { ResponseWrapper } from '../../shared';
 
+
 @Component({
     selector: 'jhi-material-dialog',
     templateUrl: './material-dialog.component.html'

@@ -7,6 +7,9 @@ import { IfixitSharedModule } from '../../shared';
 import { TreeItemComponent } from '../common/treeItem.component';
 import { DropdownTreeviewModule } from 'ng2-dropdown-treeview';
 
+//ThuyetLV
+import { FileSelectDirective } from 'ng2-file-upload';
+
 import {
     MaterialService,
     MaterialPopupService,
@@ -39,7 +42,8 @@ const ENTITY_STATES = [
         MaterialDeleteDialogComponent,
         MaterialPopupComponent,
         MaterialDeletePopupComponent,
-        TreeItemComponent
+        TreeItemComponent,
+        FileSelectDirective
     ],
     entryComponents: [
         MaterialComponent,

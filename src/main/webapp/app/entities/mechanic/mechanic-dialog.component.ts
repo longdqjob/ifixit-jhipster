@@ -14,6 +14,7 @@ import { MechanicType, MechanicTypeService } from '../mechanic-type';
 import { Company, CompanyService } from '../company';
 import { ResponseWrapper } from '../../shared';
 
+
 @Component({
     selector: 'jhi-mechanic-dialog',
     templateUrl: './mechanic-dialog.component.html'
