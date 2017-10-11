@@ -1,0 +1,143 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMechanicLabel" jhiTranslate="ifixitApp.mechanic.home.createOrEditLabel">Create or edit a Mechanic</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!mechanic.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="mechanic.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.code" for="field_code">Code</label>
+            <input type="text" class="form-control" name="code" id="field_code"
+                [(ngModel)]="mechanic.code" required maxlength="20" />
+            <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.code?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                   This field cannot be longer than 20 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.completeCode" for="field_completeCode">Complete Code</label>
+            <input type="text" class="form-control" name="completeCode" id="field_completeCode"
+                [(ngModel)]="mechanic.completeCode" required maxlength="20" />
+            <div [hidden]="!(editForm.controls.completeCode?.dirty && editForm.controls.completeCode?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.completeCode?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.completeCode?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                   This field cannot be longer than 20 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="mechanic.name" required maxlength="128" />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 128 }">
+                   This field cannot be longer than 128 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="mechanic.description" maxlength="255" />
+            <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
+                   This field cannot be longer than 255 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.note" for="field_note">Note</label>
+            <input type="text" class="form-control" name="note" id="field_note"
+                [(ngModel)]="mechanic.note"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.since" for="field_since">Since</label>
+            <div class="input-group">
+                <input id="field_since" type="text" class="form-control" name="since" ngbDatepicker  #sinceDp="ngbDatepicker" [(ngModel)]="mechanic.since"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="sinceDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.since?.dirty && editForm.controls.since?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.since?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.specification" for="field_specification">Specification</label>
+            <input type="text" class="form-control" name="specification" id="field_specification"
+                [(ngModel)]="mechanic.specification"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.location" for="field_location">Location</label>
+            <input type="text" class="form-control" name="location" id="field_location"
+                [(ngModel)]="mechanic.location"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.imgUrl" for="field_imgUrl">Img Url</label>
+            <input type="text" class="form-control" name="imgUrl" id="field_imgUrl"
+                [(ngModel)]="mechanic.imgUrl"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.imgPath" for="field_imgPath">Img Path</label>
+            <input type="text" class="form-control" name="imgPath" id="field_imgPath"
+                [(ngModel)]="mechanic.imgPath"  />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.itemType" for="field_itemType">Item Type</label>
+            <select class="form-control" id="field_itemType" name="itemType" [(ngModel)]="mechanic.itemTypeId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="itemTypeOption.id" *ngFor="let itemTypeOption of itemtypes; trackBy: trackItemTypeById">{{itemTypeOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.mechanicType" for="field_mechanicType">Mechanic Type</label>
+            <select class="form-control" id="field_mechanicType" name="mechanicType" [(ngModel)]="mechanic.mechanicTypeId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="mechanicTypeOption.id" *ngFor="let mechanicTypeOption of mechanictypes; trackBy: trackMechanicTypeById">{{mechanicTypeOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.mechanic.company" for="field_company">Company</label>
+            <select class="form-control" id="field_company" name="company" [(ngModel)]="mechanic.companyId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="companyOption.id" *ngFor="let companyOption of companies; trackBy: trackCompanyById">{{companyOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

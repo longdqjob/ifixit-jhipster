@@ -1,0 +1,37 @@
+{
+    "ifixitApp": {
+        "workOrder" : {
+            "home": {
+                "title": "Work Orders",
+                "createLabel": "Create a new Work Order",
+                "createOrEditLabel": "Create or edit a Work Order"
+            },
+            "created": "A new Work Order is created with identifier {{ param }}",
+            "updated": "A Work Order is updated with identifier {{ param }}",
+            "deleted": "A Work Order is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Work Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Work Order"
+            },
+            "code": "Code",
+            "name": "Name",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "iInterval": "I Interval",
+            "isRepeat": "Is Repeat",
+            "task": "Task",
+            "reason": "Reason",
+            "note": "Note",
+            "mhTotal": "Mh Total",
+            "mhTotalCost": "Mh Total Cost",
+            "stockTotalCost": "Stock Total Cost",
+            "lastUpdate": "Last Update",
+            "status": "Status",
+            "workType": "Work Type",
+            "groupEngineer": "Group Engineer",
+            "mechanic": "Mechanic"
+        }
+    }
+}

@@ -1,0 +1,33 @@
+{
+    "ifixitApp": {
+        "mechanic" : {
+            "home": {
+                "title": "Mechanics",
+                "createLabel": "Thêm mới một Mechanic",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Mechanic"
+            },
+            "created": "Một Mechanic mới được tạo với định danh {{ param }}",
+            "updated": "Một Mechanic cập nhật với định danh {{ param }}",
+            "deleted": "Một Mechanic đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Mechanic {{ id }}?"
+            },
+            "detail": {
+                "title": "Mechanic"
+            },
+            "code": "Code",
+            "completeCode": "Complete Code",
+            "name": "Name",
+            "description": "Description",
+            "note": "Note",
+            "since": "Since",
+            "specification": "Specification",
+            "location": "Location",
+            "imgUrl": "Img Url",
+            "imgPath": "Img Path",
+            "itemType": "Item Type",
+            "mechanicType": "Mechanic Type",
+            "company": "Company"
+        }
+    }
+}

@@ -1,0 +1,95 @@
+
+<div *ngIf="workOrder">
+    <h2><span jhiTranslate="ifixitApp.workOrder.detail.title">Work Order</span> {{workOrder.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.workOrder.code">Code</span></dt>
+        <dd>
+            <span>{{workOrder.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.name">Name</span></dt>
+        <dd>
+            <span>{{workOrder.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.startTime">Start Time</span></dt>
+        <dd>
+            <span>{{workOrder.startTime | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.endTime">End Time</span></dt>
+        <dd>
+            <span>{{workOrder.endTime | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.iInterval">I Interval</span></dt>
+        <dd>
+            <span>{{workOrder.iInterval}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.isRepeat">Is Repeat</span></dt>
+        <dd>
+            <span>{{workOrder.isRepeat}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.task">Task</span></dt>
+        <dd>
+            <span>{{workOrder.task}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.reason">Reason</span></dt>
+        <dd>
+            <span>{{workOrder.reason}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.note">Note</span></dt>
+        <dd>
+            <span>{{workOrder.note}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.mhTotal">Mh Total</span></dt>
+        <dd>
+            <span>{{workOrder.mhTotal}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.mhTotalCost">Mh Total Cost</span></dt>
+        <dd>
+            <span>{{workOrder.mhTotalCost}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.stockTotalCost">Stock Total Cost</span></dt>
+        <dd>
+            <span>{{workOrder.stockTotalCost}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.lastUpdate">Last Update</span></dt>
+        <dd>
+            <span>{{workOrder.lastUpdate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'ifixitApp.WOStatus.' + workOrder.status}}">{{workOrder.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.workType">Work Type</span></dt>
+        <dd>
+            <div *ngIf="workOrder.workTypeId">
+                <a [routerLink]="['/work-type', workOrder.workTypeId]">{{workOrder.workTypeId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.groupEngineer">Group Engineer</span></dt>
+        <dd>
+            <div *ngIf="workOrder.groupEngineerId">
+                <a [routerLink]="['/group-engineer', workOrder.groupEngineerId]">{{workOrder.groupEngineerId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workOrder.mechanic">Mechanic</span></dt>
+        <dd>
+            <div *ngIf="workOrder.mechanicId">
+                <a [routerLink]="['/mechanic', workOrder.mechanicId]">{{workOrder.mechanicId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'work-order/'+ workOrder.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

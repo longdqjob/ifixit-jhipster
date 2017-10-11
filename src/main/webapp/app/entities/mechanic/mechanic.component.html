@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-lg-4">
+        <h2>Nodes</h2>
+        <tree-root [nodes]="nodes"></tree-root>
+    </div>
+
+    <div class="col-lg-8">
+        <div>
+            <h2>
+                <span jhiTranslate="ifixitApp.mechanic.home.title">Mechanics</span>
+                <button class="btn btn-primary float-right jh-create-entity create-mechanic" [routerLink]="['/', { outlets: { popup: ['mechanic-new'] } }]">
+                        <span class="fa fa-plus"></span>
+                    <span  jhiTranslate="ifixitApp.mechanic.home.createLabel">
+                        Create new Mechanic
+                    </span>
+                </button>
+            </h2>
+            <jhi-alert></jhi-alert>
+            <div class="row">
+            </div>
+            <br/>
+            <div class="table-responsive" *ngIf="mechanics">
+                <table class="table table-striped">
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.mechanic.code">Code</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="completeCode"><span jhiTranslate="ifixitApp.mechanic.completeCode">Complete Code</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="name"><span jhiTranslate="ifixitApp.mechanic.name">Name</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="description"><span jhiTranslate="ifixitApp.mechanic.description">Description</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="note"><span jhiTranslate="ifixitApp.mechanic.note">Note</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="since"><span jhiTranslate="ifixitApp.mechanic.since">Since</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="specification"><span jhiTranslate="ifixitApp.mechanic.specification">Specification</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="location"><span jhiTranslate="ifixitApp.mechanic.location">Location</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="imgUrl"><span jhiTranslate="ifixitApp.mechanic.imgUrl">Img Url</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="imgPath"><span jhiTranslate="ifixitApp.mechanic.imgPath">Img Path</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="itemTypeId"><span jhiTranslate="ifixitApp.mechanic.itemType">Item Type</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="mechanicTypeId"><span jhiTranslate="ifixitApp.mechanic.mechanicType">Mechanic Type</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="companyId"><span jhiTranslate="ifixitApp.mechanic.company">Company</span> <span class="fa fa-sort"></span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let mechanic of mechanics ;trackBy: trackId">
+                            <td><a [routerLink]="['../mechanic', mechanic.id ]">{{mechanic.id}}</a></td>
+                            <td>{{mechanic.code}}</td>
+                            <td>{{mechanic.completeCode}}</td>
+                            <td>{{mechanic.name}}</td>
+                            <td>{{mechanic.description}}</td>
+                            <td>{{mechanic.note}}</td>
+                            <td>{{mechanic.since | date:'mediumDate'}}</td>
+                            <td>{{mechanic.specification}}</td>
+                            <td>{{mechanic.location}}</td>
+                            <td>{{mechanic.imgUrl}}</td>
+                            <td>{{mechanic.imgPath}}</td>
+                            <td>
+                                <div *ngIf="mechanic.itemTypeId">
+                                    <a [routerLink]="['../item-type', mechanic.itemTypeId  ]" >{{mechanic.itemTypeId}}</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="mechanic.mechanicTypeId">
+                                    <a [routerLink]="['../mechanic-type', mechanic.mechanicTypeId  ]" >{{mechanic.mechanicTypeId}}</a>
+                                </div>
+                            </td>
+                            <td>
+                                <div *ngIf="mechanic.companyId">
+                                    <a [routerLink]="['../company', mechanic.companyId  ]" >{{mechanic.companyId}}</a>
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['../mechanic', mechanic.id ]"
+                                            class="btn btn-info btn-sm">
+                                            <span class="fa fa-eye"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'mechanic/'+ mechanic.id + '/edit'} }]"
+                                            replaceUrl="true"
+                                            class="btn btn-primary btn-sm">
+                                            <span class="fa fa-pencil"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'mechanic/'+ mechanic.id + '/delete'} }]"
+                                            replaceUrl="true"
+                                            class="btn btn-danger btn-sm">
+                                            <span class="fa fa-remove"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="mechanics && mechanics.length">
+                <div class="row justify-content-center">
+                    <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="row justify-content-center">
+                    <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

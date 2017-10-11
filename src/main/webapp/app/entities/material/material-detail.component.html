@@ -1,0 +1,71 @@
+
+<div *ngIf="material">
+    <h2><span jhiTranslate="ifixitApp.material.detail.title">Material</span> {{material.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.material.code">Code</span></dt>
+        <dd>
+            <span>{{material.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.completeCode">Complete Code</span></dt>
+        <dd>
+            <span>{{material.completeCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.name">Name</span></dt>
+        <dd>
+            <span>{{material.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.description">Description</span></dt>
+        <dd>
+            <span>{{material.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.cost">Cost</span></dt>
+        <dd>
+            <span>{{material.cost}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.unit">Unit</span></dt>
+        <dd>
+            <span>{{material.unit}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.quantity">Quantity</span></dt>
+        <dd>
+            <span>{{material.quantity}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.location">Location</span></dt>
+        <dd>
+            <span>{{material.location}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.imgUrl">Img Url</span></dt>
+        <dd>
+            <span>{{material.imgUrl}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.imgPath">Img Path</span></dt>
+        <dd>
+            <span>{{material.imgPath}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.specification">Specification</span></dt>
+        <dd>
+            <span>{{material.specification}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.material.itemType">Item Type</span></dt>
+        <dd>
+            <div *ngIf="material.itemTypeId">
+                <a [routerLink]="['/item-type', material.itemTypeId]">{{material.itemTypeId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'material/'+ material.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

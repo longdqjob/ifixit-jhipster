@@ -1,0 +1,16 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20171010092529",
+    "dto": "no",
+    "service": "serviceImpl",
+    "entityTableName": "user_extra",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

@@ -1,0 +1,79 @@
+
+<div *ngIf="mechanic">
+    <h2><span jhiTranslate="ifixitApp.mechanic.detail.title">Mechanic</span> {{mechanic.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.mechanic.code">Code</span></dt>
+        <dd>
+            <span>{{mechanic.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.completeCode">Complete Code</span></dt>
+        <dd>
+            <span>{{mechanic.completeCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.name">Name</span></dt>
+        <dd>
+            <span>{{mechanic.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.description">Description</span></dt>
+        <dd>
+            <span>{{mechanic.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.note">Note</span></dt>
+        <dd>
+            <span>{{mechanic.note}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.since">Since</span></dt>
+        <dd>
+            <span>{{mechanic.since | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.specification">Specification</span></dt>
+        <dd>
+            <span>{{mechanic.specification}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.location">Location</span></dt>
+        <dd>
+            <span>{{mechanic.location}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.imgUrl">Img Url</span></dt>
+        <dd>
+            <span>{{mechanic.imgUrl}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.imgPath">Img Path</span></dt>
+        <dd>
+            <span>{{mechanic.imgPath}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.itemType">Item Type</span></dt>
+        <dd>
+            <div *ngIf="mechanic.itemTypeId">
+                <a [routerLink]="['/item-type', mechanic.itemTypeId]">{{mechanic.itemTypeId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.mechanicType">Mechanic Type</span></dt>
+        <dd>
+            <div *ngIf="mechanic.mechanicTypeId">
+                <a [routerLink]="['/mechanic-type', mechanic.mechanicTypeId]">{{mechanic.mechanicTypeId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanic.company">Company</span></dt>
+        <dd>
+            <div *ngIf="mechanic.companyId">
+                <a [routerLink]="['/company', mechanic.companyId]">{{mechanic.companyId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'mechanic/'+ mechanic.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

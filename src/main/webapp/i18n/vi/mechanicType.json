@@ -1,0 +1,25 @@
+{
+    "ifixitApp": {
+        "mechanicType" : {
+            "home": {
+                "title": "Mechanic Types",
+                "createLabel": "Thêm mới một Mechanic Type",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Mechanic Type"
+            },
+            "created": "Một Mechanic Type mới được tạo với định danh {{ param }}",
+            "updated": "Một Mechanic Type cập nhật với định danh {{ param }}",
+            "deleted": "Một Mechanic Type đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Mechanic Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Mechanic Type"
+            },
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "note": "Note",
+            "specification": "Specification"
+        }
+    }
+}

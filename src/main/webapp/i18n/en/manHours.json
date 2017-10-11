@@ -1,0 +1,23 @@
+{
+    "ifixitApp": {
+        "manHours" : {
+            "home": {
+                "title": "Man Hours",
+                "createLabel": "Create a new Man Hours",
+                "createOrEditLabel": "Create or edit a Man Hours"
+            },
+            "created": "A new Man Hours is created with identifier {{ param }}",
+            "updated": "A Man Hours is updated with identifier {{ param }}",
+            "deleted": "A Man Hours is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Man Hours {{ id }}?"
+            },
+            "detail": {
+                "title": "Man Hours"
+            },
+            "mh": "Mh",
+            "workOrder": "Work Order",
+            "groupEngineer": "Group Engineer"
+        }
+    }
+}

@@ -1,0 +1,208 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+      <div class="modal-header">
+        <h4 class="modal-title" id="myMaterialLabel" jhiTranslate="ifixitApp.material.home.createOrEditLabel">Create or edit a Material</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!material.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="material.id" readonly />
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.code" for="field_code">Code</label>
+                    <input type="text" class="form-control" name="code" id="field_code"
+                           [(ngModel)]="material.code" required maxlength="20" />
+                    <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.code?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                            This field cannot be longer than 20 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.completeCode" for="field_completeCode">Complete Code</label>
+                    <input type="text" class="form-control" name="completeCode" id="field_completeCode"
+                           [(ngModel)]="material.completeCode" required maxlength="20" />
+                    <div [hidden]="!(editForm.controls.completeCode?.dirty && editForm.controls.completeCode?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.completeCode?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.completeCode?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                            This field cannot be longer than 20 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--ROW-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.name" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           [(ngModel)]="material.name" required maxlength="128" />
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 128 }">
+                            This field cannot be longer than 128 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.description" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           [(ngModel)]="material.description" maxlength="255" />
+                    <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
+                            This field cannot be longer than 255 characters.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--ROW-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.cost" for="field_cost">Cost</label>
+                    <input type="number" class="form-control" name="cost" id="field_cost"
+                           [(ngModel)]="material.cost" required />
+                    <div [hidden]="!(editForm.controls.cost?.dirty && editForm.controls.cost?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.cost?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.cost?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.unit" for="field_unit">Unit</label>
+                    <input type="text" class="form-control" name="unit" id="field_unit"
+                           [(ngModel)]="material.unit" required />
+                    <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.unit?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--ROW-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.quantity" for="field_quantity">Quantity</label>
+                    <input type="number" class="form-control" name="quantity" id="field_quantity"
+                           [(ngModel)]="material.quantity" required />
+                    <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
+                        <small class="form-text text-danger"
+                           [hidden]="!editForm.controls.quantity?.errors?.required" jhiTranslate="entity.validation.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.quantity?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.location" for="field_location">Location</label>
+                    <input type="text" class="form-control" name="location" id="field_location"
+                           [(ngModel)]="material.location"  />
+                </div>
+            </div>
+        </div>
+        <!--ROW-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.imgUrl" for="field_imgUrl">Img Url</label>
+                    <input type="text" class="form-control" name="imgUrl" id="field_imgUrl"
+                           [(ngModel)]="material.imgUrl"  />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.imgPath" for="field_imgPath">Img Path</label>
+                    <input type="text" class="form-control" name="imgPath" id="field_imgPath"
+                           [(ngModel)]="material.imgPath"  />
+                </div>
+            </div>
+        </div>
+        <!--ROW-->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.specification" for="field_specification">Specification</label>
+                    <input type="text" class="form-control" name="specification" id="field_specification"
+                           [(ngModel)]="material.specification"  />
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="ifixitApp.material.itemType" for="field_itemType">Item Type</label>
+                    <select class="form-control" id="field_itemType" name="itemType" [(ngModel)]="material.itemTypeId" >
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="itemTypeOption.id" *ngFor="let itemTypeOption of itemtypes; trackBy: trackItemTypeById">{{itemTypeOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!--ROW-->
+        <ngb-tabset>
+            <ngb-tab *ngFor="let tab of tabs" [title]="tab.title">
+                <ng-template ngbTabContent>
+                    <ng-container *ngFor="let field of tab.form.fields">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-control-label">Item Type</label>
+                                    <input type="text" class="form-control" 
+                                           [(ngModel)]="field.value"  />
+                                </div>
+                            </div>
+                    </ng-container>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

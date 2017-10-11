@@ -1,0 +1,47 @@
+
+<div *ngIf="company">
+    <h2><span jhiTranslate="ifixitApp.company.detail.title">Company</span> {{company.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.company.code">Code</span></dt>
+        <dd>
+            <span>{{company.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.company.completeCode">Complete Code</span></dt>
+        <dd>
+            <span>{{company.completeCode}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.company.name">Name</span></dt>
+        <dd>
+            <span>{{company.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.company.description">Description</span></dt>
+        <dd>
+            <span>{{company.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.company.state">State</span></dt>
+        <dd>
+            <span>{{company.state}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.company.parent">Parent</span></dt>
+        <dd>
+            <div *ngIf="company.parentId">
+                <a [routerLink]="['/company', company.parentId]">{{company.parentId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'company/'+ company.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

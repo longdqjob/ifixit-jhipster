@@ -1,0 +1,26 @@
+{
+    "ifixitApp": {
+        "itemType" : {
+            "home": {
+                "title": "Item Types",
+                "createLabel": "Thêm mới một Item Type",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Item Type"
+            },
+            "created": "Một Item Type mới được tạo với định danh {{ param }}",
+            "updated": "Một Item Type cập nhật với định danh {{ param }}",
+            "deleted": "Một Item Type đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Item Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Item Type"
+            },
+            "code": "Code",
+            "completeCode": "Complete Code",
+            "name": "Name",
+            "specification": "Specification",
+            "itemType": "Item Type",
+            "parent": "Parent"
+        }
+    }
+}

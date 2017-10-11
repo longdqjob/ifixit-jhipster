@@ -1,0 +1,99 @@
+<div class="row">
+    <div class="col-lg-4">
+        <leo-item></leo-item>
+    </div>
+
+    <div class="col-lg-8">
+        <div>
+            <h2>
+                <span jhiTranslate="ifixitApp.material.home.title">Materials</span>
+
+                <app-parent></app-parent>
+                <button class="btn btn-primary float-right jh-create-entity create-material" [routerLink]="['/', { outlets: { popup: ['material-new'] } }]">
+                        <span class="fa fa-plus"></span>
+                    <span  jhiTranslate="ifixitApp.material.home.createLabel">
+                        Create new Material
+                    </span>
+                </button>
+            </h2>
+            <jhi-alert></jhi-alert>
+            <div class="row">
+            </div>
+            <br/>
+            <div class="table-responsive" *ngIf="materials">
+                <table class="table table-striped">
+                    <thead>
+                        <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.material.code">Code</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="completeCode"><span jhiTranslate="ifixitApp.material.completeCode">Complete Code</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="name"><span jhiTranslate="ifixitApp.material.name">Name</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="description"><span jhiTranslate="ifixitApp.material.description">Description</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="cost"><span jhiTranslate="ifixitApp.material.cost">Cost</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="unit"><span jhiTranslate="ifixitApp.material.unit">Unit</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="quantity"><span jhiTranslate="ifixitApp.material.quantity">Quantity</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="location"><span jhiTranslate="ifixitApp.material.location">Location</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="imgUrl"><span jhiTranslate="ifixitApp.material.imgUrl">Img Url</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="imgPath"><span jhiTranslate="ifixitApp.material.imgPath">Img Path</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="itemTypeId"><span jhiTranslate="ifixitApp.material.itemType">Item Type</span> <span class="fa fa-sort"></span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let material of materials ;trackBy: trackId">
+                            <td><a [routerLink]="['../material', material.id ]">{{material.id}}</a></td>
+                            <td>{{material.code}}</td>
+                            <td>{{material.completeCode}}</td>
+                            <td>{{material.name}}</td>
+                            <td>{{material.description}}</td>
+                            <td>{{material.cost}}</td>
+                            <td>{{material.unit}}</td>
+                            <td>{{material.quantity}}</td>
+                            <td>{{material.location}}</td>
+                            <td>{{material.imgUrl}}</td>
+                            <td>{{material.imgPath}}</td>
+                            <td>
+                                <div *ngIf="material.itemTypeId">
+                                    <a [routerLink]="['../item-type', material.itemTypeId  ]" >{{material.itemTypeId}}</a>
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <div class="btn-group flex-btn-group-container">
+                                    <button type="submit"
+                                            [routerLink]="['../material', material.id ]"
+                                            class="btn btn-info btn-sm">
+                                            <span class="fa fa-eye"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'material/'+ material.id + '/edit'} }]"
+                                            replaceUrl="true"
+                                            class="btn btn-primary btn-sm">
+                                            <span class="fa fa-pencil"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                                    </button>
+                                    <button type="submit"
+                                            [routerLink]="['/', { outlets: { popup: 'material/'+ material.id + '/delete'} }]"
+                                            replaceUrl="true"
+                                            class="btn btn-danger btn-sm">
+                                            <span class="fa fa-remove"></span>
+                                        <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div *ngIf="materials && materials.length">
+                <div class="row justify-content-center">
+                    <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+                </div>
+                <div class="row justify-content-center">
+                    <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

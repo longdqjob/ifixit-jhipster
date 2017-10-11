@@ -1,0 +1,68 @@
+<div>
+    <h2>
+        <span jhiTranslate="ifixitApp.manHours.home.title">Man Hours</span>
+        <button class="btn btn-primary float-right jh-create-entity create-man-hours" [routerLink]="['/', { outlets: { popup: ['man-hours-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="ifixitApp.manHours.home.createLabel">
+            Create new Man Hours
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="manHours">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="ifixitApp.manHours.mh">Mh</span></th>
+            <th><span jhiTranslate="ifixitApp.manHours.workOrder">Work Order</span></th>
+            <th><span jhiTranslate="ifixitApp.manHours.groupEngineer">Group Engineer</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let manHours of manHours ;trackBy: trackId">
+                <td><a [routerLink]="['../man-hours', manHours.id ]">{{manHours.id}}</a></td>
+                <td>{{manHours.mh}}</td>
+                <td>
+                    <div *ngIf="manHours.workOrderId">
+                        <a [routerLink]="['../work-order', manHours.workOrderId  ]" >{{manHours.workOrderId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="manHours.groupEngineerId">
+                        <a [routerLink]="['../group-engineer', manHours.groupEngineerId  ]" >{{manHours.groupEngineerId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../man-hours', manHours.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'man-hours/'+ manHours.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'man-hours/'+ manHours.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+{
+    "ifixitApp": {
+        "groupEngineer" : {
+            "home": {
+                "title": "Group Engineers",
+                "createLabel": "Thêm mới một Group Engineer",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Group Engineer"
+            },
+            "created": "Một Group Engineer mới được tạo với định danh {{ param }}",
+            "updated": "Một Group Engineer cập nhật với định danh {{ param }}",
+            "deleted": "Một Group Engineer đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Group Engineer {{ id }}?"
+            },
+            "detail": {
+                "title": "Group Engineer"
+            },
+            "code": "Code",
+            "completeCode": "Complete Code",
+            "name": "Name",
+            "description": "Description",
+            "cost": "Cost",
+            "parent": "Parent"
+        }
+    }
+}

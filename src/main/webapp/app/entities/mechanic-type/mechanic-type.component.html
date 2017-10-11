@@ -1,0 +1,72 @@
+<div>
+    <h2>
+        <span jhiTranslate="ifixitApp.mechanicType.home.title">Mechanic Types</span>
+        <button class="btn btn-primary float-right jh-create-entity create-mechanic-type" [routerLink]="['/', { outlets: { popup: ['mechanic-type-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="ifixitApp.mechanicType.home.createLabel">
+            Create new Mechanic Type
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="mechanicTypes">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.mechanicType.code">Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="ifixitApp.mechanicType.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="ifixitApp.mechanicType.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="note"><span jhiTranslate="ifixitApp.mechanicType.note">Note</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="specification"><span jhiTranslate="ifixitApp.mechanicType.specification">Specification</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let mechanicType of mechanicTypes ;trackBy: trackId">
+                <td><a [routerLink]="['../mechanic-type', mechanicType.id ]">{{mechanicType.id}}</a></td>
+                <td>{{mechanicType.code}}</td>
+                <td>{{mechanicType.name}}</td>
+                <td>{{mechanicType.description}}</td>
+                <td>{{mechanicType.note}}</td>
+                <td>{{mechanicType.specification}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../mechanic-type', mechanicType.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'mechanic-type/'+ mechanicType.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'mechanic-type/'+ mechanicType.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="mechanicTypes && mechanicTypes.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

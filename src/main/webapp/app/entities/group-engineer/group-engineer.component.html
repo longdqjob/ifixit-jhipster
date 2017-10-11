@@ -1,0 +1,78 @@
+<div>
+    <h2>
+        <span jhiTranslate="ifixitApp.groupEngineer.home.title">Group Engineers</span>
+        <button class="btn btn-primary float-right jh-create-entity create-group-engineer" [routerLink]="['/', { outlets: { popup: ['group-engineer-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="ifixitApp.groupEngineer.home.createLabel">
+            Create new Group Engineer
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="groupEngineers">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.groupEngineer.code">Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="completeCode"><span jhiTranslate="ifixitApp.groupEngineer.completeCode">Complete Code</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="ifixitApp.groupEngineer.name">Name</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="description"><span jhiTranslate="ifixitApp.groupEngineer.description">Description</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cost"><span jhiTranslate="ifixitApp.groupEngineer.cost">Cost</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="parentId"><span jhiTranslate="ifixitApp.groupEngineer.parent">Parent</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let groupEngineer of groupEngineers ;trackBy: trackId">
+                <td><a [routerLink]="['../group-engineer', groupEngineer.id ]">{{groupEngineer.id}}</a></td>
+                <td>{{groupEngineer.code}}</td>
+                <td>{{groupEngineer.completeCode}}</td>
+                <td>{{groupEngineer.name}}</td>
+                <td>{{groupEngineer.description}}</td>
+                <td>{{groupEngineer.cost}}</td>
+                <td>
+                    <div *ngIf="groupEngineer.parentId">
+                        <a [routerLink]="['../group-engineer', groupEngineer.parentId  ]" >{{groupEngineer.parentId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../group-engineer', groupEngineer.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'group-engineer/'+ groupEngineer.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'group-engineer/'+ groupEngineer.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="groupEngineers && groupEngineers.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>

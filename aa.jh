@@ -1,0 +1,108 @@
+entity Company {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	state Integer
+}
+entity GroupEngineer {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	cost Float required min(0)
+}
+entity ItemType {
+	code String required,
+	completeCode String required,
+	name String required,
+	specification String
+}
+entity Material {
+	code String required,
+	completeCode String required,
+	name String required,
+	description String,
+	cost Float required,
+	unit String required,
+	quantity Integer required,
+	location String,
+	specification String
+}
+entity MachineType {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	note String,
+	specification String
+}
+
+entity Machine {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	note String,
+	since LocalDate required,
+	specification String,
+	location String,
+	imgUrl String,
+	imgPath String
+}
+entity WorkType {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	iInterval Integer,
+	isRepeat Integer required min(0),
+	task String
+}
+
+enum WOStatus {
+    OPEN, OVER_DUE, IN_PROGRESS, COMPLETE
+}
+
+entity WorkOrder {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	startTime LocalDate required,
+	endTime LocalDate required,
+	iInterval Integer,
+	isRepeat Integer required min(0),
+	task String,
+	reason String,
+	note String,
+	mhTotal Float,
+	mhTotalCost Float,
+	stockTotalCost Float,
+	lastUpdate LocalDate,
+	status WOStatus
+}
+
+entity StockItem {
+	quantity Integer required min(0)
+}
+
+entity ManHours {
+	mh Float required min(0)
+}
+relationship ManyToOne {
+	Company{parent} to Company,
+	GroupEngineer{parent} to GroupEngineer,
+	ItemType{parent} to ItemType,
+	Machine{itemType} to ItemType,
+	Machine{machineType} to MachineType,
+	Machine{company} to Company,
+	StockItem{workOrder} to WorkOrder,
+	ManHours{workOrder} to WorkOrder,
+	ManHours{groupEngineer} to GroupEngineer,
+	WorkOrder{workType} to WorkType,
+	WorkOrder{groupEngineer} to GroupEngineer,
+	WorkOrder{machine} to Machine
+}
+relationship OneToMany {
+	ItemType{itemType} to Material
+}
+paginate Company, ItemType, MachineType, WorkType with infinite-scroll
+paginate Material, WorkOrder, GroupEngineer, Machine with pagination
+dto * with mapstruct
+service all with serviceImpl

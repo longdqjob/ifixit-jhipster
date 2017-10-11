@@ -1,0 +1,41 @@
+
+<div *ngIf="workType">
+    <h2><span jhiTranslate="ifixitApp.workType.detail.title">Work Type</span> {{workType.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.workType.code">Code</span></dt>
+        <dd>
+            <span>{{workType.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workType.name">Name</span></dt>
+        <dd>
+            <span>{{workType.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workType.iInterval">I Interval</span></dt>
+        <dd>
+            <span>{{workType.iInterval}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workType.isRepeat">Is Repeat</span></dt>
+        <dd>
+            <span>{{workType.isRepeat}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.workType.task">Task</span></dt>
+        <dd>
+            <span>{{workType.task}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'work-type/'+ workType.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

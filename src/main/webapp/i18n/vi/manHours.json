@@ -1,0 +1,23 @@
+{
+    "ifixitApp": {
+        "manHours" : {
+            "home": {
+                "title": "Man Hours",
+                "createLabel": "Thêm mới một Man Hours",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Man Hours"
+            },
+            "created": "Một Man Hours mới được tạo với định danh {{ param }}",
+            "updated": "Một Man Hours cập nhật với định danh {{ param }}",
+            "deleted": "Một Man Hours đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Man Hours {{ id }}?"
+            },
+            "detail": {
+                "title": "Man Hours"
+            },
+            "mh": "Mh",
+            "workOrder": "Work Order",
+            "groupEngineer": "Group Engineer"
+        }
+    }
+}

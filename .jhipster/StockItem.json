@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "workOrder",
+            "otherEntityName": "workOrder",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "quantity",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20171006053743",
+    "entityTableName": "stock_item",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

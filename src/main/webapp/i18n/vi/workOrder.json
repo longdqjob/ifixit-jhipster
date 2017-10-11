@@ -1,0 +1,37 @@
+{
+    "ifixitApp": {
+        "workOrder" : {
+            "home": {
+                "title": "Work Orders",
+                "createLabel": "Thêm mới một Work Order",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Work Order"
+            },
+            "created": "Một Work Order mới được tạo với định danh {{ param }}",
+            "updated": "Một Work Order cập nhật với định danh {{ param }}",
+            "deleted": "Một Work Order đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Work Order {{ id }}?"
+            },
+            "detail": {
+                "title": "Work Order"
+            },
+            "code": "Code",
+            "name": "Name",
+            "startTime": "Start Time",
+            "endTime": "End Time",
+            "iInterval": "I Interval",
+            "isRepeat": "Is Repeat",
+            "task": "Task",
+            "reason": "Reason",
+            "note": "Note",
+            "mhTotal": "Mh Total",
+            "mhTotalCost": "Mh Total Cost",
+            "stockTotalCost": "Stock Total Cost",
+            "lastUpdate": "Last Update",
+            "status": "Status",
+            "workType": "Work Type",
+            "groupEngineer": "Group Engineer",
+            "mechanic": "Mechanic"
+        }
+    }
+}

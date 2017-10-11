@@ -1,0 +1,106 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "workType",
+            "otherEntityName": "workType",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "groupEngineer",
+            "otherEntityName": "groupEngineer",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "mechanic",
+            "otherEntityName": "mechanic",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "code",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 20
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 128
+        },
+        {
+            "fieldName": "startTime",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "endTime",
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "iInterval",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "isRepeat",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "task",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "reason",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "note",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "mhTotal",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "mhTotalCost",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "stockTotalCost",
+            "fieldType": "Float"
+        },
+        {
+            "fieldName": "lastUpdate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "WOStatus",
+            "fieldValues": "OPEN,OVER_DUE,IN_PROGRESS,COMPLETE"
+        }
+    ],
+    "changelogDate": "20171006053742",
+    "entityTableName": "work_order",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl"
+}

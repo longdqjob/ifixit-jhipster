@@ -1,0 +1,33 @@
+{
+    "ifixitApp": {
+        "mechanic" : {
+            "home": {
+                "title": "Mechanics",
+                "createLabel": "Create a new Mechanic",
+                "createOrEditLabel": "Create or edit a Mechanic"
+            },
+            "created": "A new Mechanic is created with identifier {{ param }}",
+            "updated": "A Mechanic is updated with identifier {{ param }}",
+            "deleted": "A Mechanic is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Mechanic {{ id }}?"
+            },
+            "detail": {
+                "title": "Mechanic"
+            },
+            "code": "Code",
+            "completeCode": "Complete Code",
+            "name": "Name",
+            "description": "Description",
+            "note": "Note",
+            "since": "Since",
+            "specification": "Specification",
+            "location": "Location",
+            "imgUrl": "Img Url",
+            "imgPath": "Img Path",
+            "itemType": "Item Type",
+            "mechanicType": "Mechanic Type",
+            "company": "Company"
+        }
+    }
+}

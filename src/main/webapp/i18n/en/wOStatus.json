@@ -1,0 +1,11 @@
+{
+    "ifixitApp": {
+        "WOStatus" : {
+            "null": "",
+            "OPEN": "OPEN",
+            "OVER_DUE": "OVER_DUE",
+            "IN_PROGRESS": "IN_PROGRESS",
+            "COMPLETE": "COMPLETE"
+        }
+    }
+}

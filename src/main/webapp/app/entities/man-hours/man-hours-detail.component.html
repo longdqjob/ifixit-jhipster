@@ -1,0 +1,37 @@
+
+<div *ngIf="manHours">
+    <h2><span jhiTranslate="ifixitApp.manHours.detail.title">Man Hours</span> {{manHours.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.manHours.mh">Mh</span></dt>
+        <dd>
+            <span>{{manHours.mh}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.manHours.workOrder">Work Order</span></dt>
+        <dd>
+            <div *ngIf="manHours.workOrderId">
+                <a [routerLink]="['/work-order', manHours.workOrderId]">{{manHours.workOrderId}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.manHours.groupEngineer">Group Engineer</span></dt>
+        <dd>
+            <div *ngIf="manHours.groupEngineerId">
+                <a [routerLink]="['/group-engineer', manHours.groupEngineerId]">{{manHours.groupEngineerId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'man-hours/'+ manHours.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

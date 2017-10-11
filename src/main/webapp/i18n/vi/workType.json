@@ -1,0 +1,25 @@
+{
+    "ifixitApp": {
+        "workType" : {
+            "home": {
+                "title": "Work Types",
+                "createLabel": "Thêm mới một Work Type",
+                "createOrEditLabel": "Thêm mới hoặc cập nhật Work Type"
+            },
+            "created": "Một Work Type mới được tạo với định danh {{ param }}",
+            "updated": "Một Work Type cập nhật với định danh {{ param }}",
+            "deleted": "Một Work Type đã xóa với định danh {{ param }}",
+            "delete": {
+                "question": "Bạn có chắc là muốn xóa Work Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Work Type"
+            },
+            "code": "Code",
+            "name": "Name",
+            "iInterval": "I Interval",
+            "isRepeat": "Is Repeat",
+            "task": "Task"
+        }
+    }
+}

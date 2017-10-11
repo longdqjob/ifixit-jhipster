@@ -1,0 +1,177 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myWorkOrderLabel" jhiTranslate="ifixitApp.workOrder.home.createOrEditLabel">Create or edit a Work Order</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!workOrder.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="workOrder.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.code" for="field_code">Code</label>
+            <input type="text" class="form-control" name="code" id="field_code"
+                [(ngModel)]="workOrder.code" required maxlength="20" />
+            <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.code?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                   This field cannot be longer than 20 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.name" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="workOrder.name" required maxlength="128" />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 128 }">
+                   This field cannot be longer than 128 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.startTime" for="field_startTime">Start Time</label>
+            <div class="input-group">
+                <input id="field_startTime" type="text" class="form-control" name="startTime" ngbDatepicker  #startTimeDp="ngbDatepicker" [(ngModel)]="workOrder.startTime"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="startTimeDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.startTime?.dirty && editForm.controls.startTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.startTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.endTime" for="field_endTime">End Time</label>
+            <div class="input-group">
+                <input id="field_endTime" type="text" class="form-control" name="endTime" ngbDatepicker  #endTimeDp="ngbDatepicker" [(ngModel)]="workOrder.endTime"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="endTimeDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.endTime?.dirty && editForm.controls.endTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.endTime?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.iInterval" for="field_iInterval">I Interval</label>
+            <input type="number" class="form-control" name="iInterval" id="field_iInterval"
+                [(ngModel)]="workOrder.iInterval"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.isRepeat" for="field_isRepeat">Is Repeat</label>
+            <input type="number" class="form-control" name="isRepeat" id="field_isRepeat"
+                [(ngModel)]="workOrder.isRepeat" required />
+            <div [hidden]="!(editForm.controls.isRepeat?.dirty && editForm.controls.isRepeat?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.isRepeat?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.isRepeat?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.task" for="field_task">Task</label>
+            <input type="text" class="form-control" name="task" id="field_task"
+                [(ngModel)]="workOrder.task"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.reason" for="field_reason">Reason</label>
+            <input type="text" class="form-control" name="reason" id="field_reason"
+                [(ngModel)]="workOrder.reason"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.note" for="field_note">Note</label>
+            <input type="text" class="form-control" name="note" id="field_note"
+                [(ngModel)]="workOrder.note"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.mhTotal" for="field_mhTotal">Mh Total</label>
+            <input type="number" class="form-control" name="mhTotal" id="field_mhTotal"
+                [(ngModel)]="workOrder.mhTotal"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.mhTotalCost" for="field_mhTotalCost">Mh Total Cost</label>
+            <input type="number" class="form-control" name="mhTotalCost" id="field_mhTotalCost"
+                [(ngModel)]="workOrder.mhTotalCost"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.stockTotalCost" for="field_stockTotalCost">Stock Total Cost</label>
+            <input type="number" class="form-control" name="stockTotalCost" id="field_stockTotalCost"
+                [(ngModel)]="workOrder.stockTotalCost"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.lastUpdate" for="field_lastUpdate">Last Update</label>
+            <div class="input-group">
+                <input id="field_lastUpdate" type="text" class="form-control" name="lastUpdate" ngbDatepicker  #lastUpdateDp="ngbDatepicker" [(ngModel)]="workOrder.lastUpdate"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="lastUpdateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.status" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="workOrder.status" id="field_status" >
+                <option value="OPEN">{{'ifixitApp.WOStatus.OPEN' | translate}}</option>
+                <option value="OVER_DUE">{{'ifixitApp.WOStatus.OVER_DUE' | translate}}</option>
+                <option value="IN_PROGRESS">{{'ifixitApp.WOStatus.IN_PROGRESS' | translate}}</option>
+                <option value="COMPLETE">{{'ifixitApp.WOStatus.COMPLETE' | translate}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.workType" for="field_workType">Work Type</label>
+            <select class="form-control" id="field_workType" name="workType" [(ngModel)]="workOrder.workTypeId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="workTypeOption.id" *ngFor="let workTypeOption of worktypes; trackBy: trackWorkTypeById">{{workTypeOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.groupEngineer" for="field_groupEngineer">Group Engineer</label>
+            <select class="form-control" id="field_groupEngineer" name="groupEngineer" [(ngModel)]="workOrder.groupEngineerId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="groupEngineerOption.id" *ngFor="let groupEngineerOption of groupengineers; trackBy: trackGroupEngineerById">{{groupEngineerOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="ifixitApp.workOrder.mechanic" for="field_mechanic">Mechanic</label>
+            <select class="form-control" id="field_mechanic" name="mechanic" [(ngModel)]="workOrder.mechanicId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="mechanicOption.id" *ngFor="let mechanicOption of mechanics; trackBy: trackMechanicById">{{mechanicOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

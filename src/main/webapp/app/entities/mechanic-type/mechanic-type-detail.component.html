@@ -1,0 +1,41 @@
+
+<div *ngIf="mechanicType">
+    <h2><span jhiTranslate="ifixitApp.mechanicType.detail.title">Mechanic Type</span> {{mechanicType.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="ifixitApp.mechanicType.code">Code</span></dt>
+        <dd>
+            <span>{{mechanicType.code}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanicType.name">Name</span></dt>
+        <dd>
+            <span>{{mechanicType.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanicType.description">Description</span></dt>
+        <dd>
+            <span>{{mechanicType.description}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanicType.note">Note</span></dt>
+        <dd>
+            <span>{{mechanicType.note}}</span>
+        </dd>
+        <dt><span jhiTranslate="ifixitApp.mechanicType.specification">Specification</span></dt>
+        <dd>
+            <span>{{mechanicType.specification}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'mechanic-type/'+ mechanicType.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

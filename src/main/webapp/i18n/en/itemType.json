@@ -1,0 +1,26 @@
+{
+    "ifixitApp": {
+        "itemType" : {
+            "home": {
+                "title": "Item Types",
+                "createLabel": "Create a new Item Type",
+                "createOrEditLabel": "Create or edit a Item Type"
+            },
+            "created": "A new Item Type is created with identifier {{ param }}",
+            "updated": "A Item Type is updated with identifier {{ param }}",
+            "deleted": "A Item Type is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Item Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Item Type"
+            },
+            "code": "Code",
+            "completeCode": "Complete Code",
+            "name": "Name",
+            "specification": "Specification",
+            "itemType": "Item Type",
+            "parent": "Parent"
+        }
+    }
+}

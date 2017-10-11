@@ -1,0 +1,25 @@
+{
+    "ifixitApp": {
+        "mechanicType" : {
+            "home": {
+                "title": "Mechanic Types",
+                "createLabel": "Create a new Mechanic Type",
+                "createOrEditLabel": "Create or edit a Mechanic Type"
+            },
+            "created": "A new Mechanic Type is created with identifier {{ param }}",
+            "updated": "A Mechanic Type is updated with identifier {{ param }}",
+            "deleted": "A Mechanic Type is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Mechanic Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Mechanic Type"
+            },
+            "code": "Code",
+            "name": "Name",
+            "description": "Description",
+            "note": "Note",
+            "specification": "Specification"
+        }
+    }
+}

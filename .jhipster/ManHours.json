@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "workOrder",
+            "otherEntityName": "workOrder",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "groupEngineer",
+            "otherEntityName": "groupEngineer",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "mh",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20171006053744",
+    "entityTableName": "man_hours",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl"
+}

@@ -1,0 +1,117 @@
+entity Company {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	state Integer
+}
+
+entity GroupEngineer {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	cost Float required
+}
+
+entity ItemType {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	specification String
+}
+
+entity MechanicType {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	note String,
+	specification String
+}
+
+entity Mechanic {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	note String,
+	since LocalDate required,
+	specification String,
+	location String,
+	imgUrl String,
+	imgPath String
+}
+
+entity Material {
+	code String required maxlength(20),
+	completeCode String required maxlength(20),
+	name String required maxlength(128),
+	description String maxlength(255),
+	cost Float required,
+	unit String required,
+	quantity Integer required,
+	location String,
+	imgUrl String,
+	imgPath String,
+	specification String
+}
+
+entity WorkType {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	iInterval Integer,
+	isRepeat Integer required,
+	task String
+}
+
+enum WOStatus {
+    OPEN, OVER_DUE, IN_PROGRESS, COMPLETE
+}
+
+entity WorkOrder {
+	code String required maxlength(20),
+	name String required maxlength(128),
+	startTime LocalDate required,
+	endTime LocalDate required,
+	iInterval Integer,
+	isRepeat Integer required,
+	task String,
+	reason String,
+	note String,
+	mhTotal Float,
+	mhTotalCost Float,
+	stockTotalCost Float,
+	lastUpdate LocalDate,
+	status WOStatus
+}
+
+entity StockItem {
+	quantity Integer required
+}
+
+entity ManHours {
+	mh Float required
+}
+
+relationship ManyToOne {
+	Company{parent} to Company,
+	GroupEngineer{parent} to GroupEngineer,
+	ItemType{parent} to ItemType,
+	Mechanic{itemType} to ItemType,
+	Mechanic{mechanicType} to MechanicType,
+	Mechanic{company} to Company,
+	StockItem{workOrder} to WorkOrder,
+	ManHours{workOrder} to WorkOrder,
+	ManHours{groupEngineer} to GroupEngineer,
+	WorkOrder{workType} to WorkType,
+	WorkOrder{groupEngineer} to GroupEngineer,
+	WorkOrder{mechanic} to Mechanic
+}
+
+relationship OneToMany {
+	ItemType{itemType} to Material
+}
+
+paginate Company, ItemType, GroupEngineer, Material, MechanicType, Mechanic, WorkType, WorkOrder  with pagination
+dto * with mapstruct
+service all with serviceImpl

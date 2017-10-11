@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity ManHours.
+    -->
+    <changeSet id="20171006053744-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="work_order_id"
+                                 baseTableName="man_hours"
+                                 constraintName="fk_man_hours_work_order_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="work_order"/>
+
+        <addForeignKeyConstraint baseColumnNames="group_engineer_id"
+                                 baseTableName="man_hours"
+                                 constraintName="fk_man_hours_group_engineer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="group_engineer"/>
+
+    </changeSet>
+</databaseChangeLog>
