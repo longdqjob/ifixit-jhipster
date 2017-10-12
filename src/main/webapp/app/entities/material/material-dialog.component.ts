@@ -13,6 +13,12 @@ import { MaterialService } from './material.service';
 import { ItemType, ItemTypeService } from '../item-type';
 import { ResponseWrapper } from '../../shared';
 
+//
+import { LocalStorageService, SessionStorageService } from 'ng2-webstorage';
+import { FileUploader, FileUploaderOptions } from 'ng2-file-upload';
+
+const URL = '/api/post';
+
 
 @Component({
     selector: 'jhi-material-dialog',
@@ -27,19 +33,63 @@ export class MaterialDialogComponent implements OnInit {
 
     itemtypes: ItemType[];
     
-    
+    //ThuyetLV
+    imageDefault: string;
+    token: string;
+    uploader: any;
+    maxFileSize = 10 * 1024 * 1024;
+    allowedMimeType = ['image/png', 'image/gif', 'video/mp4', 'image/jpeg'];
 
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
         private materialService: MaterialService,
         private itemTypeService: ItemTypeService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private localStorage: LocalStorageService,
+        private sessionStorage: SessionStorageService
     ) {
     }
 
     ngOnInit() {
         //ThuyetLV
+        this.imageDefault= "/images/no-preview-available.png";
+        console.log(this.imageDefault);
+        
+        this.token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+    console.log("---token: " + this.token);
+    
+    this.uploader = new FileUploader({
+        url: URL,
+        headers: [{name:'Authorization', value:'Bearer ' + this.token}],
+        autoUpload: true,
+            maxFileSize: this.maxFileSize,
+            allowedMimeType: this.allowedMimeType,
+//            filters: [{
+//                    name: 'extension',
+//                    fn: (item: any): boolean => {
+//                        console.log(item.name);
+//                        const fileExtension = item.name.slice(item.name.lastIndexOf('.') + 1).toLowerCase();
+//                        return fileExtension === 'csv' ;
+//                    }
+//                }
+//            ]
+    });
+    
+        this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
+            try{
+                console.log(response);
+                console.log("ImageUpload:uploaded:", item, status);
+                var obj = JSON.parse(response);
+                console.log(obj.map.fileName);
+                this.imageDefault= "/" + obj.map.fileName;
+            }catch(c){
+                console.error(c);
+            }
+        };
+        
+        console.log("-------tabs------");
+        
     this.tabs = [
       {
         title: 'Tab 1 324',
@@ -134,6 +184,24 @@ export class MaterialDialogComponent implements OnInit {
     trackItemTypeById(index: number, item: ItemType) {
         return item.id;
     }
+    
+    //ThuyetLV
+    
+    
+  public hasBaseDropZoneOver:boolean = false;
+  public hasAnotherDropZoneOver:boolean = false;
+ 
+  public fileOverBase(e:any):void {
+    this.hasBaseDropZoneOver = e;
+  }
+ 
+  public fileOverAnother(e:any):void {
+    this.hasAnotherDropZoneOver = e;
+  }
+  
+  onFileSelected () {
+    this.uploader.uploadAll();
+  }
 }
 
 @Component({
@@ -143,6 +211,7 @@ export class MaterialDialogComponent implements OnInit {
 export class MaterialPopupComponent implements OnInit, OnDestroy {
 
     routeSub: any;
+    imageDefault: "/images/no-preview-available.png";
 
     constructor(
         private route: ActivatedRoute,

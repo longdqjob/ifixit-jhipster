@@ -40,7 +40,9 @@ export class MaterialPopupService {
     }
 
     materialModalRef(component: Component, material: Material): NgbModalRef {
-        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        console.log("--------materialModalRef---------");
+//        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
+        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static', windowClass: 'modal-xxl' });
         modalRef.componentInstance.material = material;
         modalRef.result.then((result) => {
             this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });

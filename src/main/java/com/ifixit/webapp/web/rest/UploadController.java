@@ -67,7 +67,7 @@ public class UploadController {
             String fileName = storageService.store(file);
             files.add(fileName);
 
-            Resource fileSave = storageService.loadFile(StorageService.TMP_FILE + fileName);
+            Resource fileSave = storageService.loadFile(fileName);
 
             JSONObject jSONObject = new JSONObject();
             jSONObject.put("fileName", fileName);

@@ -161,4 +161,7 @@ public class CompanyDTO implements Serializable {
         this.child = child;
     }
 
+    public CompanyDTO() {
+    }
+
 }

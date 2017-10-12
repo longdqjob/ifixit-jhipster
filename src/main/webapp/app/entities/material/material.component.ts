@@ -78,8 +78,10 @@ currentAccount: any;
     
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
             console.log(response);
+            console.log(response.map.fileName);
             console.log("ImageUpload:uploaded:", item, status);
         };
+        console.log("-------itemsPerPage------");
     
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
