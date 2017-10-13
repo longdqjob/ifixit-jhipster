@@ -3,6 +3,11 @@ import { RouterModule } from '@angular/router';
 
 import { IfixitSharedModule } from '../../shared';
 
+//ThuyetLV
+import { TreeModule, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, TreeNode } from 'angular-tree-component';
+
+import { FileUploadModule } from "ng2-file-upload";
+
 import {
     MechanicService,
     MechanicPopupService,
@@ -24,6 +29,8 @@ const ENTITY_STATES = [
 
 @NgModule({
     imports: [
+        FileUploadModule,
+        TreeModule,
         IfixitSharedModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true })
     ],
@@ -33,7 +40,8 @@ const ENTITY_STATES = [
         MechanicDialogComponent,
         MechanicDeleteDialogComponent,
         MechanicPopupComponent,
-        MechanicDeletePopupComponent
+        MechanicDeletePopupComponent,
+//        FileSelectDirective
     ],
     entryComponents: [
         MechanicComponent,

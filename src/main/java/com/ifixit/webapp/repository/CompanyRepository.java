@@ -15,6 +15,9 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
+    @Query("SELECT c.id FROM Company c")
+    public List<Long> getAllId();
+    
     @Query("SELECT c FROM Company c WHERE c.parent.id = :parentId")
     public List<Company> find(@Param("parentId") Long parentId);
 

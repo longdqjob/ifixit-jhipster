@@ -17,6 +17,79 @@ import com.ifixit.webapp.domain.enumeration.WOStatus;
 @Entity
 @Table(name = "work_order")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+
+@SqlResultSetMapping(
+        name = "workOrderDTO",
+        classes = {
+            @ConstructorResult(
+                    targetClass = com.ifixit.webapp.service.dto.WorkOrderDTO.class,
+                    columns = {
+                        @ColumnResult(name = "id", type = Long.class),
+                        @ColumnResult(name = "code", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "startTime", type = LocalDate.class),
+                        @ColumnResult(name = "endTime", type = LocalDate.class),
+                        @ColumnResult(name = "iInterval", type = Integer.class),
+                        @ColumnResult(name = "isRepeat", type = Integer.class),
+                        @ColumnResult(name = "task", type = String.class),
+                        @ColumnResult(name = "reason", type = String.class),
+                        @ColumnResult(name = "note", type = String.class),
+                        @ColumnResult(name = "mhTotal", type = Float.class),
+                        @ColumnResult(name = "mhTotalCost", type = Float.class),
+                        @ColumnResult(name = "stockTotalCost", type = Float.class),
+                        @ColumnResult(name = "lastUpdate", type = LocalDate.class),
+                        @ColumnResult(name = "status", type = WOStatus.class),
+                        @ColumnResult(name = "workTypeId", type = Long.class),
+                        @ColumnResult(name = "groupEngineerId", type = Long.class),
+                        @ColumnResult(name = "mechanicId", type = Long.class),
+                        @ColumnResult(name = "workTypeCode", type = String.class),
+                        @ColumnResult(name = "workTypeName", type = String.class),
+                        @ColumnResult(name = "groupEngineerCode", type = String.class),
+                        @ColumnResult(name = "groupEngineerName", type = String.class),
+                        @ColumnResult(name = "mechanicCode", type = String.class),
+                        @ColumnResult(name = "mechanicName", type = String.class)
+                    }
+            )
+        }
+)
+@NamedNativeQueries({
+    @NamedNativeQuery(
+            name = "WorkOrder.getData",
+            query = "SELECT c.id as id,c.code as code,c.name as name,"
+            + "c.start_time as startTime,c.end_time as endTime,c.i_interval as iInterval,c.is_repeat as isRepeat, c.task as task, "
+            + "c.reason as reason,c.note as note,c.mh_total as mhTotal,c.mh_total_cost as mhTotalCost,  "
+            + "c.stock_total_cost as stockTotalCost,c.last_update as lastUpdate,c.status as status,c.work_type_id as workTypeId,"
+            + "c.work_type_id as workTypeId,c.work_type_id as workTypeId,c.work_type_id as workTypeId,c.work_type_id as workTypeId,"
+            + "c.group_engineer_id as groupEngineerId,c.mechanic_id as mechanicId,"
+            + "wt.code as workTypeCode,wt.name as workTypeName, "
+            + "e.complete_code as groupEngineerCode,e.name as groupEngineerName, "
+            + "m.complete_code as mechanicCode,m.name as mechanicName "
+            + "FROM work_order c "
+            + "LEFT JOIN work_type wt ON c.work_type_id=wt.id "
+            + "LEFT JOIN mechanic m ON c.mechanic_id=m.id "
+            + "LEFT JOIN group_engineer e ON c.group_engineer_id=e.id "
+            + "WHERE c.id=:id",
+            resultSetMapping = "workOrderDTO"
+    ),
+    @NamedNativeQuery(
+            name = "WorkOrder.getWorkOrders",
+            query = "SELECT c.id as id,c.code as code,c.name as name,"
+            + "c.start_time as startTime,c.end_time as endTime,c.i_interval as iInterval,c.is_repeat as isRepeat, c.task as task, "
+            + "c.reason as reason,c.note as note,c.mh_total as mhTotal,c.mh_total_cost as mhTotalCost,  "
+            + "c.stock_total_cost as stockTotalCost,c.last_update as lastUpdate,c.status as status,c.work_type_id as workTypeId,"
+            + "c.work_type_id as workTypeId,c.work_type_id as workTypeId,c.work_type_id as workTypeId,c.work_type_id as workTypeId,"
+            + "c.group_engineer_id as groupEngineerId,c.mechanic_id as mechanicId,"
+            + "wt.code as workTypeCode,wt.name as workTypeName, "
+            + "e.complete_code as groupEngineerCode,e.name as groupEngineerName, "
+            + "m.complete_code as mechanicCode,m.name as mechanicName "
+            + "FROM work_order c "
+            + "LEFT JOIN work_type wt ON c.work_type_id=wt.id "
+            + "LEFT JOIN mechanic m ON c.mechanic_id=m.id "
+            + "LEFT JOIN group_engineer e ON c.group_engineer_id=e.id "
+            + "WHERE c.group_engineer_id in :listEng",
+            resultSetMapping = "workOrderDTO"
+    )
+})
 public class WorkOrder implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -337,22 +410,22 @@ public class WorkOrder implements Serializable {
 
     @Override
     public String toString() {
-        return "WorkOrder{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
-            ", name='" + getName() + "'" +
-            ", startTime='" + getStartTime() + "'" +
-            ", endTime='" + getEndTime() + "'" +
-            ", iInterval='" + getiInterval() + "'" +
-            ", isRepeat='" + getIsRepeat() + "'" +
-            ", task='" + getTask() + "'" +
-            ", reason='" + getReason() + "'" +
-            ", note='" + getNote() + "'" +
-            ", mhTotal='" + getMhTotal() + "'" +
-            ", mhTotalCost='" + getMhTotalCost() + "'" +
-            ", stockTotalCost='" + getStockTotalCost() + "'" +
-            ", lastUpdate='" + getLastUpdate() + "'" +
-            ", status='" + getStatus() + "'" +
-            "}";
+        return "WorkOrder{"
+                + "id=" + getId()
+                + ", code='" + getCode() + "'"
+                + ", name='" + getName() + "'"
+                + ", startTime='" + getStartTime() + "'"
+                + ", endTime='" + getEndTime() + "'"
+                + ", iInterval='" + getiInterval() + "'"
+                + ", isRepeat='" + getIsRepeat() + "'"
+                + ", task='" + getTask() + "'"
+                + ", reason='" + getReason() + "'"
+                + ", note='" + getNote() + "'"
+                + ", mhTotal='" + getMhTotal() + "'"
+                + ", mhTotalCost='" + getMhTotalCost() + "'"
+                + ", stockTotalCost='" + getStockTotalCost() + "'"
+                + ", lastUpdate='" + getLastUpdate() + "'"
+                + ", status='" + getStatus() + "'"
+                + "}";
     }
 }

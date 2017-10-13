@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface MaterialMapper extends EntityMapper <MaterialDTO, Material> {
 
     @Mapping(source = "itemType.id", target = "itemTypeId")
+    @Mapping(source = "itemType.name", target = "itemTypeName")
     MaterialDTO toDto(Material material); 
 
     @Mapping(source = "itemTypeId", target = "itemType")

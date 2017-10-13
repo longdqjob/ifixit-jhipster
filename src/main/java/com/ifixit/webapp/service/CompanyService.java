@@ -42,6 +42,8 @@ public interface CompanyService {
      */
     void delete(Long id);
     
+    //ThuyetLV Add
+    public List<Long> getAllId();
     String getChild(Long id);
     List<Company> getListChild(List<Long> lstChild);
     List<Company> getTree(Long id);

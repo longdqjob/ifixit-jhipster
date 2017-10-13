@@ -1,5 +1,6 @@
 package com.ifixit.webapp.domain;
 
+import com.ifixit.webapp.service.dto.MechanicDTO;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -15,6 +16,65 @@ import java.util.Objects;
 @Entity
 @Table(name = "mechanic")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@SqlResultSetMapping(
+        name = "mechanicDTOResult",
+        classes = {
+            @ConstructorResult(
+                    targetClass = com.ifixit.webapp.service.dto.MechanicDTO.class,
+                    columns = {
+                        @ColumnResult(name = "id", type = Long.class),
+                        @ColumnResult(name = "code", type = String.class),
+                        @ColumnResult(name = "complete_code", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "description", type = String.class),
+                        @ColumnResult(name = "note", type = String.class),
+                        @ColumnResult(name = "since", type = LocalDate.class),
+                        @ColumnResult(name = "jhi_specification", type = String.class),
+                        @ColumnResult(name = "location", type = String.class),
+                        @ColumnResult(name = "img_url", type = String.class),
+                        @ColumnResult(name = "img_path", type = String.class),
+                        @ColumnResult(name = "item_type_id", type = Long.class),
+                        @ColumnResult(name = "mechanic_type_id", type = Long.class),
+                        @ColumnResult(name = "company_id", type = Long.class),
+                        @ColumnResult(name = "itemTypeCode", type = String.class),
+                        @ColumnResult(name = "itemTypeName", type = String.class),
+                        @ColumnResult(name = "itemTypeSpe", type = String.class),
+                        @ColumnResult(name = "mechanicTypeCode", type = String.class),
+                        @ColumnResult(name = "mechanicTypeName", type = String.class),
+                        @ColumnResult(name = "companyCode", type = String.class),
+                        @ColumnResult(name = "companyName", type = String.class)
+                    }
+            )
+        }
+)
+@NamedNativeQueries({
+    @NamedNativeQuery(
+            name = "Mechanic.getData",
+            query = "SELECT m.id,m.code,m.complete_code,m.name,m.description,m.note,m.since,m.jhi_specification,m.location,m.img_url,"
+            + "m.img_path,m.item_type_id,m.mechanic_type_id,m.company_id,"
+            + "i.complete_code as itemTypeCode,i.name as itemTypeName,i.jhi_specification as itemTypeSpe, "
+            + "mt.code as mechanicTypeCode,mt.name as mechanicTypeName, "
+            + "c.code as companyCode,c.name as companyName "
+            + "FROM mechanic m LEFT JOIN item_type i ON m.item_type_id=i.id "
+            + "LEFT JOIN mechanic_type mt ON m.mechanic_type_id=mt.id "
+            + "LEFT JOIN company c ON m.company_id=c.id "
+            + "WHERE m.id=:id",
+            resultSetMapping = "mechanicDTOResult"
+    ),
+    @NamedNativeQuery(
+            name = "Mechanic.getMechanics",
+            query = "SELECT m.id,m.code,m.complete_code,m.name,m.description,m.note,m.since,m.jhi_specification,m.location,m.img_url,"
+            + "m.img_path,m.item_type_id,m.mechanic_type_id,m.company_id,"
+            + "i.complete_code as itemTypeCode,i.name as itemTypeName,i.jhi_specification as itemTypeSpe, "
+            + "mt.code as mechanicTypeCode,mt.name as mechanicTypeName, "
+            + "c.code as companyCode,c.name as companyName "
+            + "FROM mechanic m LEFT JOIN item_type i ON m.item_type_id=i.id "
+            + "LEFT JOIN mechanic_type mt ON m.mechanic_type_id=mt.id "
+            + "LEFT JOIN company c ON m.company_id=c.id "
+            + "WHERE m.company_id IN :listSys",
+            resultSetMapping = "mechanicDTOResult"
+    )
+})
 public class Mechanic implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -271,18 +331,18 @@ public class Mechanic implements Serializable {
 
     @Override
     public String toString() {
-        return "Mechanic{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
-            ", completeCode='" + getCompleteCode() + "'" +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", note='" + getNote() + "'" +
-            ", since='" + getSince() + "'" +
-            ", specification='" + getSpecification() + "'" +
-            ", location='" + getLocation() + "'" +
-            ", imgUrl='" + getImgUrl() + "'" +
-            ", imgPath='" + getImgPath() + "'" +
-            "}";
+        return "Mechanic{"
+                + "id=" + getId()
+                + ", code='" + getCode() + "'"
+                + ", completeCode='" + getCompleteCode() + "'"
+                + ", name='" + getName() + "'"
+                + ", description='" + getDescription() + "'"
+                + ", note='" + getNote() + "'"
+                + ", since='" + getSince() + "'"
+                + ", specification='" + getSpecification() + "'"
+                + ", location='" + getLocation() + "'"
+                + ", imgUrl='" + getImgUrl() + "'"
+                + ", imgPath='" + getImgPath() + "'"
+                + "}";
     }
 }

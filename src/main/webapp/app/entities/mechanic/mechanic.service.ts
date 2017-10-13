@@ -76,4 +76,11 @@ export class MechanicService {
             .convertLocalDateToServer(mechanic.since);
         return copy;
     }
+    
+    //ThuyetLV Add
+    getMechanics(id: number,req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        return this.http.get(`${this.resourceUrl}/all/${id}`, options)
+            .map((res: Response) => this.convertResponse(res));
+    }
 }

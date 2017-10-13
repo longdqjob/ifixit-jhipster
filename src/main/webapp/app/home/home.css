@@ -1,7 +1,7 @@
 /* ==========================================================================
 Main page styles
 ========================================================================== */
-
+@import '~angular-tree-component/dist/angular-tree-component.css';
 .hipster {
     display: inline-block;
     width: 347px;

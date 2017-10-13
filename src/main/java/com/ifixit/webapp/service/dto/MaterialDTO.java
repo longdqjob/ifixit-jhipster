@@ -1,10 +1,7 @@
 package com.ifixit.webapp.service.dto;
 
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -162,7 +159,7 @@ public class MaterialDTO implements Serializable {
         }
 
         MaterialDTO materialDTO = (MaterialDTO) o;
-        if(materialDTO.getId() == null || getId() == null) {
+        if (materialDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), materialDTO.getId());
@@ -175,19 +172,70 @@ public class MaterialDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "MaterialDTO{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
-            ", completeCode='" + getCompleteCode() + "'" +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", cost='" + getCost() + "'" +
-            ", unit='" + getUnit() + "'" +
-            ", quantity='" + getQuantity() + "'" +
-            ", location='" + getLocation() + "'" +
-            ", imgUrl='" + getImgUrl() + "'" +
-            ", imgPath='" + getImgPath() + "'" +
-            ", specification='" + getSpecification() + "'" +
-            "}";
+        return "MaterialDTO{"
+                + "id=" + getId()
+                + ", code='" + getCode() + "'"
+                + ", completeCode='" + getCompleteCode() + "'"
+                + ", name='" + getName() + "'"
+                + ", description='" + getDescription() + "'"
+                + ", cost='" + getCost() + "'"
+                + ", unit='" + getUnit() + "'"
+                + ", quantity='" + getQuantity() + "'"
+                + ", location='" + getLocation() + "'"
+                + ", imgUrl='" + getImgUrl() + "'"
+                + ", imgPath='" + getImgPath() + "'"
+                + ", specification='" + getSpecification() + "'"
+                + "}";
     }
+
+    private String itemTypeName;
+    private String itemTypeCode;
+    private String itemTypeSpe;
+
+    public String getItemTypeName() {
+        return itemTypeName;
+    }
+
+    public void setItemTypeName(String itemTypeName) {
+        this.itemTypeName = itemTypeName;
+    }
+
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
+
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
+
+    public String getItemTypeSpe() {
+        return itemTypeSpe;
+    }
+
+    public void setItemTypeSpe(String itemTypeSpe) {
+        this.itemTypeSpe = itemTypeSpe;
+    }
+
+    public MaterialDTO(Long id, String code, String completeCode, String name, String description, Float cost, String unit, Integer quantity, String location, String imgUrl, String imgPath, String specification, Long itemTypeId, String itemTypeName, String itemTypeCode, String itemTypeSpe) {
+        this.id = id;
+        this.code = code;
+        this.completeCode = completeCode;
+        this.name = name;
+        this.description = description;
+        this.cost = cost;
+        this.unit = unit;
+        this.quantity = quantity;
+        this.location = location;
+        this.imgUrl = imgUrl;
+        this.imgPath = imgPath;
+        this.specification = specification;
+        this.itemTypeId = itemTypeId;
+        this.itemTypeName = itemTypeName;
+        this.itemTypeCode = itemTypeCode;
+        this.itemTypeSpe = itemTypeSpe;
+    }
+
+    public MaterialDTO() {
+    }
+
 }

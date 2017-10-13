@@ -1,6 +1,8 @@
 package com.ifixit.webapp.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.google.gson.Gson;
+import com.ifixit.webapp.service.CompanyService;
 import com.ifixit.webapp.service.MaterialService;
 import com.ifixit.webapp.web.rest.util.HeaderUtil;
 import com.ifixit.webapp.web.rest.util.PaginationUtil;
@@ -41,10 +43,12 @@ public class MaterialResource {
     }
 
     /**
-     * POST  /materials : Create a new material.
+     * POST /materials : Create a new material.
      *
      * @param materialDTO the materialDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new materialDTO, or with status 400 (Bad Request) if the material has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new materialDTO, or with status 400 (Bad Request) if the material has
+     * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/materials")
@@ -56,17 +60,18 @@ public class MaterialResource {
         }
         MaterialDTO result = materialService.save(materialDTO);
         return ResponseEntity.created(new URI("/api/materials/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /materials : Updates an existing material.
+     * PUT /materials : Updates an existing material.
      *
      * @param materialDTO the materialDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated materialDTO,
-     * or with status 400 (Bad Request) if the materialDTO is not valid,
-     * or with status 500 (Internal Server Error) if the materialDTO couldn't be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * materialDTO, or with status 400 (Bad Request) if the materialDTO is not
+     * valid, or with status 500 (Internal Server Error) if the materialDTO
+     * couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/materials")
@@ -78,15 +83,16 @@ public class MaterialResource {
         }
         MaterialDTO result = materialService.save(materialDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, materialDTO.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, materialDTO.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /materials : get all the materials.
+     * GET /materials : get all the materials.
      *
      * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of materials in body
+     * @return the ResponseEntity with status 200 (OK) and the list of materials
+     * in body
      */
     @GetMapping("/materials")
     @Timed
@@ -98,21 +104,25 @@ public class MaterialResource {
     }
 
     /**
-     * GET  /materials/:id : get the "id" material.
+     * GET /materials/:id : get the "id" material.
      *
      * @param id the id of the materialDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the materialDTO, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * materialDTO, or with status 404 (Not Found)
      */
     @GetMapping("/materials/{id}")
     @Timed
     public ResponseEntity<MaterialDTO> getMaterial(@PathVariable Long id) {
         log.debug("REST request to get Material : {}", id);
         MaterialDTO materialDTO = materialService.findOne(id);
+//        MaterialDTO materialDTO = materialService.getData(id);
+        Gson gson = new Gson();
+        log.info("materialDTO: " + id + " - " + gson.toJson(materialDTO));
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(materialDTO));
     }
 
     /**
-     * DELETE  /materials/:id : delete the "id" material.
+     * DELETE /materials/:id : delete the "id" material.
      *
      * @param id the id of the materialDTO to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -124,4 +134,80 @@ public class MaterialResource {
         materialService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/materials/data/{id}")
+    @Timed
+    public ResponseEntity<MaterialDTO> getData(@PathVariable Long id) {
+        log.debug("REST request to get Material : {}", id);
+        MaterialDTO materialDTO = materialService.getData(id);
+        Gson gson = new Gson();
+        log.info("materialDTO: " + id + " - " + gson.toJson(materialDTO));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(materialDTO));
+    }
+
+    @GetMapping("/materials/all")
+    @Timed
+    public ResponseEntity<List<MaterialDTO>> getAll(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of Materials");
+        Page<MaterialDTO> page = materialService.getMaterials(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/materials/all");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+//    //Add thuyetLV
+//    @Inject
+//    private UserService userService;
+//    
+//    private final CompanyService companyService;
+//    
+//    @GetMapping("/materials/all/{id}")
+//    @Timed
+//    public ResponseEntity<List<MaterialDTO>> getMaterials(@PathVariable("id") Optional<String> id, @ApiParam Pageable pageable) {
+//        log.debug("REST request to get a page of getMaterials");
+//        Long engId = 1L;
+//        List<Long> listEng = new ArrayList<>();
+//        String lstTmp = "";
+//        if (id == null || StringUtils.isBlank(id.get()) || !StringUtils.isNumeric(id.get())) {
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            log.debug("-------getAuthentication: " + auth.getPrincipal());
+//            try {
+//                org.springframework.security.core.userdetails.User users = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+//                log.debug("-------userdetails: " + users.getUsername());
+//                Optional<User> lstUser = userService.getUserWithAuthoritiesByLogin(users.getUsername());
+//                User user = lstUser.get();
+//                if (user.getCompany()== null) {
+//                    log.debug("-------companyService null: ");
+//                    listEng = companyService.getAllId();
+//                    log.debug("-------companyService getAllId: " + StringUtils.join(listEng, ","));
+//                } else {
+//                    log.debug("-------companyService: " + user.getGroupEngineer().getId() + " - " + user.getGroupEngineer().getName());
+//                    engId = user.getGroupEngineer().getId();
+//                }
+//            } catch (Exception ex) {
+//                log.error("ERROR findTopProducts: ", ex);
+//            }
+//        } else {
+//            engId = Long.parseLong(id.get());
+//        }
+//
+//        if (listEng.isEmpty()) {
+//            lstTmp = companyService.getChild(engId);
+//            if (StringUtils.isBlank(lstTmp)) {
+//                listEng = new ArrayList<>(1);
+//                listEng.add(engId);
+//            } else {
+//                lstTmp += "," + String.valueOf(engId);
+//                String[] tmp = lstTmp.split(",");
+//
+//                listEng = new ArrayList<>(tmp.length);
+//                for (String eng : tmp) {
+//                    listEng.add(Long.parseLong(eng));
+//                }
+//            }
+//        }
+//
+//        Page<MaterialDTO> page = companyService.getWorkOrders(listEng, pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/work-orders/all");
+//        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+//    }
 }

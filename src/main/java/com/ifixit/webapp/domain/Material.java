@@ -1,5 +1,6 @@
 package com.ifixit.webapp.domain;
 
+import com.ifixit.webapp.service.dto.MaterialDTO;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,6 +15,67 @@ import java.util.Objects;
 @Entity
 @Table(name = "material")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@SqlResultSetMapping(
+        name = "materialDTOResult",
+        classes = {
+            @ConstructorResult(
+                    targetClass = com.ifixit.webapp.service.dto.MaterialDTO.class, 
+                    columns = {
+                        @ColumnResult(name = "id", type = Long.class),
+                        @ColumnResult(name = "code", type = String.class),
+                        @ColumnResult(name = "completeCode", type = String.class),
+                        @ColumnResult(name = "name", type = String.class),
+                        @ColumnResult(name = "description", type = String.class),
+                        @ColumnResult(name = "cost", type = Float.class),
+                        @ColumnResult(name = "unit", type = String.class),
+                        @ColumnResult(name = "quantity", type = Integer.class),
+                        @ColumnResult(name = "location", type = String.class),
+                        @ColumnResult(name = "imgUrl", type = String.class),
+                        @ColumnResult(name = "imgPath", type = String.class),
+                        @ColumnResult(name = "specification", type = String.class),
+                        @ColumnResult(name = "itemTypeId", type = Long.class),
+                        @ColumnResult(name = "itemTypeName", type = String.class),
+                        @ColumnResult(name = "itemTypeCode", type = String.class),
+                        @ColumnResult(name = "itemTypeSpe", type = String.class)
+                    }
+            )
+        }
+)
+//@NamedNativeQuery(name = "Material.getData", query = "SELECT c.id as id,c.code as code,c.complete_code as completeCode,"
+//        + "c.name as name,c.description as description,c.jhi_cost as cost,c.unit as unit, c.quantity as quantity, "
+//        + "c.location as location,c.img_url as imgUrl,c.img_path as imgPath,c.jhi_specification as specification,  "
+//        + "c.item_type_id as itemTypeId,i.name as itemTypeName,i.complete_code as itemTypeCode,i.jhi_specification as itemTypeSpe "
+//        + "FROM material c LEFT JOIN item_type i ON c.item_type_id=i.id WHERE c.id=:id", resultSetMapping = "materialDTOResult")
+//@NamedNativeQuery(name = "Material.getAll", query = "SELECT c.id as id,c.code as code,c.complete_code as completeCode,"
+//        + "c.name as name,c.description as description,c.jhi_cost as cost,c.unit as unit, c.quantity as quantity, "
+//        + "c.location as location,c.img_url as imgUrl,c.img_path as imgPath,c.jhi_specification as specification,  "
+//        + "c.item_type_id as itemTypeId,i.name as itemTypeName,i.complete_code as itemTypeCode,i.jhi_specification as itemTypeSpe "
+//        + "FROM material c LEFT JOIN item_type i ON c.item_type_id=i.id WHERE c.id=:id", resultSetMapping = "materialDTOResult")
+//
+//@Entity(name="EmployeeEntity")
+//@Table (name="employee")
+
+@NamedNativeQueries({
+    @NamedNativeQuery(
+            name = "Material.getData",
+            query = "SELECT c.id as id,c.code as code,c.complete_code as completeCode,"
+            + "c.name as name,c.description as description,c.jhi_cost as cost,c.unit as unit, c.quantity as quantity, "
+            + "c.location as location,c.img_url as imgUrl,c.img_path as imgPath,c.jhi_specification as specification,  "
+            + "c.item_type_id as itemTypeId,i.name as itemTypeName,i.complete_code as itemTypeCode,i.jhi_specification as itemTypeSpe "
+            + "FROM material c LEFT JOIN item_type i ON c.item_type_id=i.id WHERE c.id=:id",
+            resultSetMapping = "materialDTOResult"
+    ),
+    @NamedNativeQuery(
+            name = "Material.getMaterials",
+            query = "SELECT c.id as id,c.code as code,c.complete_code as completeCode,"
+            + "c.name as name,c.description as description,c.jhi_cost as cost,c.unit as unit, c.quantity as quantity, "
+            + "c.location as location,c.img_url as imgUrl,c.img_path as imgPath,c.jhi_specification as specification,  "
+            + "c.item_type_id as itemTypeId,i.name as itemTypeName,i.complete_code as itemTypeCode,i.jhi_specification as itemTypeSpe "
+            + "FROM material c LEFT JOIN item_type i ON c.item_type_id=i.id",
+            resultSetMapping = "materialDTOResult"
+    )
+})
+
 public class Material implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -65,7 +127,8 @@ public class Material implements Serializable {
     @Column(name = "jhi_specification")
     private String specification;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_type_id")
     private ItemType itemType;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -256,19 +319,19 @@ public class Material implements Serializable {
 
     @Override
     public String toString() {
-        return "Material{" +
-            "id=" + getId() +
-            ", code='" + getCode() + "'" +
-            ", completeCode='" + getCompleteCode() + "'" +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", cost='" + getCost() + "'" +
-            ", unit='" + getUnit() + "'" +
-            ", quantity='" + getQuantity() + "'" +
-            ", location='" + getLocation() + "'" +
-            ", imgUrl='" + getImgUrl() + "'" +
-            ", imgPath='" + getImgPath() + "'" +
-            ", specification='" + getSpecification() + "'" +
-            "}";
+        return "Material{"
+                + "id=" + getId()
+                + ", code='" + getCode() + "'"
+                + ", completeCode='" + getCompleteCode() + "'"
+                + ", name='" + getName() + "'"
+                + ", description='" + getDescription() + "'"
+                + ", cost='" + getCost() + "'"
+                + ", unit='" + getUnit() + "'"
+                + ", quantity='" + getQuantity() + "'"
+                + ", location='" + getLocation() + "'"
+                + ", imgUrl='" + getImgUrl() + "'"
+                + ", imgPath='" + getImgPath() + "'"
+                + ", specification='" + getSpecification() + "'"
+                + "}";
     }
 }

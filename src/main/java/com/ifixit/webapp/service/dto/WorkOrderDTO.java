@@ -227,7 +227,7 @@ public class WorkOrderDTO implements Serializable {
                 + ", name='" + getName() + "'"
                 + ", startTime='" + getStartTime() + "'"
                 + ", endTime='" + getEndTime() + "'"
-                + ", iInterval='" + getiInterval()+ "'"
+                + ", iInterval='" + getiInterval() + "'"
                 + ", isRepeat='" + getIsRepeat() + "'"
                 + ", task='" + getTask() + "'"
                 + ", reason='" + getReason() + "'"
@@ -239,4 +239,91 @@ public class WorkOrderDTO implements Serializable {
                 + ", status='" + getStatus() + "'"
                 + "}";
     }
+
+    //Add
+    private String workTypeCode;
+    private String workTypeName;
+    private String groupEngineerCode;
+    private String groupEngineerName;
+    private String mechanicCode;
+    private String mechanicName;
+
+    public String getWorkTypeCode() {
+        return workTypeCode;
+    }
+
+    public void setWorkTypeCode(String workTypeCode) {
+        this.workTypeCode = workTypeCode;
+    }
+
+    public String getWorkTypeName() {
+        return workTypeName;
+    }
+
+    public void setWorkTypeName(String workTypeName) {
+        this.workTypeName = workTypeName;
+    }
+
+    public String getGroupEngineerCode() {
+        return groupEngineerCode;
+    }
+
+    public void setGroupEngineerCode(String groupEngineerCode) {
+        this.groupEngineerCode = groupEngineerCode;
+    }
+
+    public String getGroupEngineerName() {
+        return groupEngineerName;
+    }
+
+    public void setGroupEngineerName(String groupEngineerName) {
+        this.groupEngineerName = groupEngineerName;
+    }
+
+    public String getMechanicCode() {
+        return mechanicCode;
+    }
+
+    public void setMechanicCode(String mechanicCode) {
+        this.mechanicCode = mechanicCode;
+    }
+
+    public String getMechanicName() {
+        return mechanicName;
+    }
+
+    public void setMechanicName(String mechanicName) {
+        this.mechanicName = mechanicName;
+    }
+
+    public WorkOrderDTO(Long id, String code, String name, LocalDate startTime, LocalDate endTime, Integer iInterval, Integer isRepeat, String task, String reason, String note, Float mhTotal, Float mhTotalCost, Float stockTotalCost, LocalDate lastUpdate, WOStatus status, Long workTypeId, Long groupEngineerId, Long mechanicId, String workTypeCode, String workTypeName, String groupEngineerCode, String groupEngineerName, String mechanicCode, String mechanicName) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.iInterval = iInterval;
+        this.isRepeat = isRepeat;
+        this.task = task;
+        this.reason = reason;
+        this.note = note;
+        this.mhTotal = mhTotal;
+        this.mhTotalCost = mhTotalCost;
+        this.stockTotalCost = stockTotalCost;
+        this.lastUpdate = lastUpdate;
+        this.status = status;
+        this.workTypeId = workTypeId;
+        this.groupEngineerId = groupEngineerId;
+        this.mechanicId = mechanicId;
+        this.workTypeCode = workTypeCode;
+        this.workTypeName = workTypeName;
+        this.groupEngineerCode = groupEngineerCode;
+        this.groupEngineerName = groupEngineerName;
+        this.mechanicCode = mechanicCode;
+        this.mechanicName = mechanicName;
+    }
+
+    public WorkOrderDTO() {
+    }
+
 }

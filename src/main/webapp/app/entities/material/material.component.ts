@@ -56,25 +56,25 @@ currentAccount: any;
         private localStorage: LocalStorageService,
         private sessionStorage: SessionStorageService
     ) {
-    this.token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
-    console.log("---token: " + this.token);
+        this.token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
+        console.log("---token: " + this.token);
     
-    this.uploader = new FileUploader({
-        url: URL,
-        headers: [{name:'Authorization', value:'Bearer ' + this.token}],
-        autoUpload: true,
-            maxFileSize: this.maxFileSize,
-            allowedMimeType: this.allowedMimeType,
-//            filters: [{
-//                    name: 'extension',
-//                    fn: (item: any): boolean => {
-//                        console.log(item.name);
-//                        const fileExtension = item.name.slice(item.name.lastIndexOf('.') + 1).toLowerCase();
-//                        return fileExtension === 'csv' ;
-//                    }
-//                }
-//            ]
-    });
+        this.uploader = new FileUploader({
+            url: URL,
+            headers: [{name:'Authorization', value:'Bearer ' + this.token}],
+            autoUpload: true,
+                maxFileSize: this.maxFileSize,
+                allowedMimeType: this.allowedMimeType,
+    //            filters: [{
+    //                    name: 'extension',
+    //                    fn: (item: any): boolean => {
+    //                        console.log(item.name);
+    //                        const fileExtension = item.name.slice(item.name.lastIndexOf('.') + 1).toLowerCase();
+    //                        return fileExtension === 'csv' ;
+    //                    }
+    //                }
+    //            ]
+        });
     
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
             console.log(response);
@@ -93,13 +93,20 @@ currentAccount: any;
     }
 
     loadAll() {
-        this.materialService.query({
+        this.materialService.getAll({
             page: this.page - 1,
             size: this.itemsPerPage,
             sort: this.sort()}).subscribe(
             (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
             (res: ResponseWrapper) => this.onError(res.json)
         );
+//        this.materialService.query({
+//            page: this.page - 1,
+//            size: this.itemsPerPage,
+//            sort: this.sort()}).subscribe(
+//            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+//            (res: ResponseWrapper) => this.onError(res.json)
+//        );
     }
     loadPage(page: number) {
         if (page !== this.previousPage) {
@@ -165,6 +172,12 @@ currentAccount: any;
     }
     
     //ThuyetLV
+    doubleClick(event,material){
+        console.log(event);
+        console.log(material);
+        //navigation link.
+        this.router.navigate(['/', { outlets: { popup: 'material/'+ material.id + '/edit'} }]);
+    }
     
     
   public hasBaseDropZoneOver:boolean = false;

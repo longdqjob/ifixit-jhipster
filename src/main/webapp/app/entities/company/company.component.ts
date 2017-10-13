@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Rx';
 import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiLanguageService, JhiAlertService } from 'ng-jhipster';
@@ -8,9 +9,15 @@ import { CompanyService } from './company.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
 
+//ThuyetLV
+import { TreeModule, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, TreeNode } from 'angular-tree-component';
+
 @Component({
     selector: 'jhi-company',
-    templateUrl: './company.component.html'
+    templateUrl: './company.component.html',
+    styleUrls: [
+        'company.component.css'
+    ]
 })
 export class CompanyComponent implements OnInit, OnDestroy {
 
@@ -84,6 +91,8 @@ currentAccount: any;
         this.loadAll();
     }
     ngOnInit() {
+        console.log("-------ngOnInit----");
+        this.loadTreeCompany();
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
@@ -120,4 +129,70 @@ currentAccount: any;
     private onError(error) {
         this.jhiAlertService.error(error.message, null, null);
     }
+    
+    //ThuyetLV
+    treeData: any;
+    loadTreeCompany() {
+        console.log("-------loadTreeCompany----");
+        this.companyService.getTree().subscribe(
+            (res: ResponseWrapper) => { this.treeData = res.json; },
+            (res: ResponseWrapper) => { console.error(res.json); }
+        );
+    }
+    
+    onDblclick(item){
+        console.log("--------onDblclick---------");
+        console.log(item);
+    }
+    
+    interval: any;
+    options = {
+        getChildren: (node:TreeNode) => {
+            console.log(node);
+            return this.companyService.getTreePromise(node.id);
+        }
+    }
+    nodes = [
+        {
+          id: 1,
+          name: 'root1',
+          children: [
+            { id: 2, name: 'child1' },
+            { id: 3, name: 'child2' }
+          ]
+        },
+        {
+          id: 4,
+          name: 'root2',
+          children: [
+            { id: 5, name: 'child2.1' },
+            {
+              id: 6,
+              name: 'child2.2',
+              children: [
+                { id: 7, name: 'subsub' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 8,
+          name: 'asyncRoot',
+          hasChildren: true
+        }
+    ];
+  
+    nodes2 = [
+        {
+          title: 'root1',
+          className: 'root1Class'
+        },
+        {
+          title: 'root2',
+          className: 'root2Class',
+          children: [
+            { title: 'child1', className: 'child1Class' }
+          ]
+        }
+    ];
 }

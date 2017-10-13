@@ -9,6 +9,7 @@ export class Company implements BaseEntity {
         public description?: string,
         public state?: number,
         public parentId?: number,
+        public hasChildren?: boolean,
     ) {
     }
 }

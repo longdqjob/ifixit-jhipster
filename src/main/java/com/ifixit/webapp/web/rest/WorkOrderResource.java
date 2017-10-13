@@ -1,6 +1,9 @@
 package com.ifixit.webapp.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.ifixit.webapp.domain.User;
+import com.ifixit.webapp.service.GroupEngineerService;
+import com.ifixit.webapp.service.UserService;
 import com.ifixit.webapp.service.WorkOrderService;
 import com.ifixit.webapp.web.rest.util.HeaderUtil;
 import com.ifixit.webapp.web.rest.util.PaginationUtil;
@@ -19,9 +22,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import java.util.List;
 import java.util.Optional;
+import javax.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * REST controller for managing WorkOrder.
@@ -36,15 +44,18 @@ public class WorkOrderResource {
 
     private final WorkOrderService workOrderService;
 
-    public WorkOrderResource(WorkOrderService workOrderService) {
+    public WorkOrderResource(WorkOrderService workOrderService, GroupEngineerService groupEngineerService) {
         this.workOrderService = workOrderService;
+        this.groupEngineerService = groupEngineerService;
     }
 
     /**
-     * POST  /work-orders : Create a new workOrder.
+     * POST /work-orders : Create a new workOrder.
      *
      * @param workOrderDTO the workOrderDTO to create
-     * @return the ResponseEntity with status 201 (Created) and with body the new workOrderDTO, or with status 400 (Bad Request) if the workOrder has already an ID
+     * @return the ResponseEntity with status 201 (Created) and with body the
+     * new workOrderDTO, or with status 400 (Bad Request) if the workOrder has
+     * already an ID
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/work-orders")
@@ -56,17 +67,18 @@ public class WorkOrderResource {
         }
         WorkOrderDTO result = workOrderService.save(workOrderDTO);
         return ResponseEntity.created(new URI("/api/work-orders/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                .body(result);
     }
 
     /**
-     * PUT  /work-orders : Updates an existing workOrder.
+     * PUT /work-orders : Updates an existing workOrder.
      *
      * @param workOrderDTO the workOrderDTO to update
-     * @return the ResponseEntity with status 200 (OK) and with body the updated workOrderDTO,
-     * or with status 400 (Bad Request) if the workOrderDTO is not valid,
-     * or with status 500 (Internal Server Error) if the workOrderDTO couldn't be updated
+     * @return the ResponseEntity with status 200 (OK) and with body the updated
+     * workOrderDTO, or with status 400 (Bad Request) if the workOrderDTO is not
+     * valid, or with status 500 (Internal Server Error) if the workOrderDTO
+     * couldn't be updated
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/work-orders")
@@ -78,15 +90,16 @@ public class WorkOrderResource {
         }
         WorkOrderDTO result = workOrderService.save(workOrderDTO);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, workOrderDTO.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, workOrderDTO.getId().toString()))
+                .body(result);
     }
 
     /**
-     * GET  /work-orders : get all the workOrders.
+     * GET /work-orders : get all the workOrders.
      *
      * @param pageable the pagination information
-     * @return the ResponseEntity with status 200 (OK) and the list of workOrders in body
+     * @return the ResponseEntity with status 200 (OK) and the list of
+     * workOrders in body
      */
     @GetMapping("/work-orders")
     @Timed
@@ -98,10 +111,11 @@ public class WorkOrderResource {
     }
 
     /**
-     * GET  /work-orders/:id : get the "id" workOrder.
+     * GET /work-orders/:id : get the "id" workOrder.
      *
      * @param id the id of the workOrderDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the workOrderDTO, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the
+     * workOrderDTO, or with status 404 (Not Found)
      */
     @GetMapping("/work-orders/{id}")
     @Timed
@@ -112,7 +126,7 @@ public class WorkOrderResource {
     }
 
     /**
-     * DELETE  /work-orders/:id : delete the "id" workOrder.
+     * DELETE /work-orders/:id : delete the "id" workOrder.
      *
      * @param id the id of the workOrderDTO to delete
      * @return the ResponseEntity with status 200 (OK)
@@ -123,5 +137,62 @@ public class WorkOrderResource {
         log.debug("REST request to delete WorkOrder : {}", id);
         workOrderService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    //Add
+    private final GroupEngineerService groupEngineerService;
+
+    @Inject
+    private UserService userService;
+
+    @GetMapping("/work-orders/all/{id}")
+    @Timed
+    public ResponseEntity<List<WorkOrderDTO>> getWorkOrders(@PathVariable("id") Optional<String> id, @ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of WorkOrders");
+        Long engId = 1L;
+        List<Long> listEng = new ArrayList<>();
+        String lstTmp = "";
+        if (id == null || StringUtils.isBlank(id.get()) || !StringUtils.isNumeric(id.get())) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            log.debug("-------getAuthentication: " + auth.getPrincipal());
+            try {
+                org.springframework.security.core.userdetails.User users = (org.springframework.security.core.userdetails.User) auth.getPrincipal();
+                log.debug("-------userdetails: " + users.getUsername());
+                Optional<User> lstUser = userService.getUserWithAuthoritiesByLogin(users.getUsername());
+                User user = lstUser.get();
+                if (user.getGroupEngineer() == null) {
+                    log.debug("-------getGroupEngineer null: ");
+                    listEng = groupEngineerService.getAllId();
+                    log.debug("-------getGroupEngineer getAllId: " + StringUtils.join(listEng, ","));
+                } else {
+                    log.debug("-------getGroupEngineer: " + user.getGroupEngineer().getId() + " - " + user.getGroupEngineer().getName());
+                    engId = user.getGroupEngineer().getId();
+                }
+            } catch (Exception ex) {
+                log.error("ERROR findTopProducts: ", ex);
+            }
+        } else {
+            engId = Long.parseLong(id.get());
+        }
+
+        if (listEng.isEmpty()) {
+            lstTmp = groupEngineerService.getChild(engId);
+            if (StringUtils.isBlank(lstTmp)) {
+                listEng = new ArrayList<>(1);
+                listEng.add(engId);
+            } else {
+                lstTmp += "," + String.valueOf(engId);
+                String[] tmp = lstTmp.split(",");
+
+                listEng = new ArrayList<>(tmp.length);
+                for (String eng : tmp) {
+                    listEng.add(Long.parseLong(eng));
+                }
+            }
+        }
+
+        Page<WorkOrderDTO> page = workOrderService.getWorkOrders(listEng, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/work-orders/all");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 }

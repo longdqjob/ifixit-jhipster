@@ -38,6 +38,8 @@ public class StorageService {
 //    private final Path rootLocation = Paths.get(UPLOAD_DIR);
     private Path rootLocation = Paths.get(UPLOAD_DIR);
 
+    public static final String UPLOAD_DIR_MATERIAL = "upload-dir" + File.separator + "material";
+
     public void setPath(Path path) {
         this.rootLocation = path;
     }
@@ -46,23 +48,25 @@ public class StorageService {
         return this.rootLocation.toString();
     }
 
-    public boolean createDirIfNotExits() {
-        File theDir = new File(this.rootLocation.toString() + File.separator + UPLOAD_DIR);
+    public boolean createDirIfNotExits(String path) {
+        String fullPath = this.rootLocation.toString() + File.separator + path;
+        File theDir = new File(fullPath);
         // if the directory does not exist, create it
         if (!theDir.exists()) {
             boolean result = false;
             try {
                 theDir.mkdir();
+                log.info("---CREATE mkdir: " + fullPath + " success!");
                 result = true;
             } catch (SecurityException se) {
-                log.error("ERROR createDirIfNotExits: ", se);
+                log.error("ERROR createDirIfNotExits: " + fullPath, se);
                 return false;
             }
             return result;
         }
         return true;
     }
-    
+
     public String getPathFile(String fileName) {
         return this.rootLocation.toString() + File.separator + fileName;
     }
@@ -73,22 +77,36 @@ public class StorageService {
         return type.equals("image");
     }
 
-    public String store(MultipartFile file) {
+    //Return 0: fileName, 1: url
+    public String[] store(MultipartFile file, String path) {
         try {
-            String fileName = WebUtil.removeAscii(file.getOriginalFilename());
+            String[] rtn = new String[2];
+            createDirIfNotExits(path);
             String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+            String fileName = file.getOriginalFilename();
+            log.info("-------fileName getOriginalFilename: " + fileName);
+            fileName = fileName.substring(0, fileName.lastIndexOf(ext) - 1);
+            log.info("-------fileName: " + fileName);
+            fileName = WebUtil.toPrettyURL(WebUtil.removeAscii(fileName));
+            fileName += "." + ext;
+            log.info("-------fileName ext: " + fileName);
             if (ext.equalsIgnoreCase("jpg") || ext.equalsIgnoreCase("png")) {
                 //File Image
                 Files.copy(file.getInputStream(), this.rootLocation.resolve(TMP_FILE + fileName));
-
+                
                 //resize Img
-                ImageUtil.resize(getPath() + File.separator + StorageService.TMP_FILE + fileName, getPath() + File.separator + fileName);
-                return fileName;
+                ImageUtil.resize(getPath() + File.separator + StorageService.TMP_FILE + fileName, getPath() + File.separator + path + File.separator + fileName);
+                rtn[0] = fileName;
+                rtn[1] = ("/" + path + "/" + fileName).replaceAll("\\\\", "/");
+                return rtn;
             } else {
                 Files.copy(file.getInputStream(), this.rootLocation.resolve(fileName));
-                return file.getOriginalFilename();
+                rtn[0] = fileName;
+                rtn[1] = "/" + fileName; //file.getOriginalFilename();
+                return rtn;
             }
         } catch (Exception e) {
+            log.error("ERROR store: ", e);
             throw new RuntimeException("FAIL!");
         }
     }
@@ -103,6 +121,7 @@ public class StorageService {
                 throw new RuntimeException("FAIL!");
             }
         } catch (MalformedURLException e) {
+            log.error("ERROR loadFile: ", e);
             throw new RuntimeException("FAIL!");
         }
     }

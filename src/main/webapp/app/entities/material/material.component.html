@@ -1,15 +1,3 @@
-<style>
-    .my-drop-zone { border: dotted 3px lightgray; }
-    .nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
-    .another-file-over-class { border: dotted 3px green; }
-
-    html, body { height: 100%; }
-
-    .modal-xxl .modal-lg {
-        max-width: 90%;
-    }
-</style>
-
 <div class="container">
 
     <div class="navbar navbar-default">
@@ -153,7 +141,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let material of materials ;trackBy: trackId">
+                        <tr *ngFor="let material of materials ;trackBy: trackId" (dblclick)="doubleClick($event,material)">
                             <td><a [routerLink]="['../material', material.id ]">{{material.id}}</a></td>
                             <td>{{material.code}}</td>
                             <td>{{material.completeCode}}</td>
@@ -167,7 +155,7 @@
                             <td>{{material.imgPath}}</td>
                             <td>
                                 <div *ngIf="material.itemTypeId">
-                                    <a [routerLink]="['../item-type', material.itemTypeId  ]" >{{material.itemTypeId}}</a>
+                                    <a [routerLink]="['../item-type', material.itemTypeId  ]" >{{material.itemTypeName}}</a>
                                 </div>
                             </td>
                             <td class="text-right">

@@ -7,7 +7,13 @@ import { Mechanic } from './mechanic.model';
 import { MechanicService } from './mechanic.service';
 import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
 import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
-import { TreeModule } from 'angular-tree-component';
+
+//ThuyetLV
+import { TreeModule, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, TreeNode } from 'angular-tree-component';
+import { FileSelectDirective } from 'ng2-file-upload';
+//Tree company
+import { Company } from '../company/company.model';
+import { CompanyService } from '../company/company.service';
 
 @Component({
     selector: 'jhi-mechanic',
@@ -31,6 +37,7 @@ currentAccount: any;
     reverse: any;
 
     constructor(
+        private companyService: CompanyService,
         private mechanicService: MechanicService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
@@ -41,6 +48,7 @@ currentAccount: any;
         private paginationUtil: JhiPaginationUtil,
         private paginationConfig: PaginationConfig
     ) {
+        console.log("---MechanicComponent constructor------");
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data['pagingParams'].page;
@@ -85,6 +93,7 @@ currentAccount: any;
         this.loadAll();
     }
     ngOnInit() {
+        this.loadTreeCompany();
         this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
@@ -112,6 +121,7 @@ currentAccount: any;
     }
 
     private onSuccess(data, headers) {
+        console.log(data);
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
         this.queryCount = this.totalItems;
@@ -123,28 +133,38 @@ currentAccount: any;
     }
     
     //
-    nodes = [
-    {
-      id: 1,
-      name: 'root1',
-      children: [
-        { id: 2, name: 'child1' },
-        { id: 3, name: 'child2' }
-      ]
-    },
-    {
-      id: 4,
-      name: 'root2',
-      children: [
-        { id: 5, name: 'child2.1' },
-        {
-          id: 6,
-          name: 'child2.2',
-          children: [
-            { id: 7, name: 'subsub' }
-          ]
-        }
-      ]
+    //ThuyetLV
+    treeData: any;
+    loadTreeCompany() {
+        console.log("-------loadTreeCompany----");
+        this.companyService.getTree().subscribe(
+            (res: ResponseWrapper) => { this.treeData = res.json; },
+            (res: ResponseWrapper) => { console.error(res.json); }
+        );
     }
-  ];
+    
+    onDblclick(item){
+        console.log("--------onDblclick: " + item.id);
+        this.mechanicService.getMechanics(item.id,{
+            page: this.page - 1,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+        );
+        
+        this.principal.identity().then((account) => {
+            this.currentAccount = account;
+        });
+        this.registerChangeInMechanics();
+    }
+    
+    interval: any;
+    options = {
+        getChildren: (node:TreeNode) => {
+            console.log(node);
+            return this.companyService.getTreePromise(node.id);
+        }
+    }
 }

@@ -52,7 +52,8 @@
             "confirmpassword": "Xác nhận mật khẩu mới",
             "confirmpassword.placeholder": "Nhập lại mật khẩu mới",
             "email": "Email",
-            "email.placeholder": "Nhập email của bạn"
+            "email.placeholder": "Nhập email của bạn",
+            "imgPreView": "Image PreView"
         },
         "messages": {
             "info": {

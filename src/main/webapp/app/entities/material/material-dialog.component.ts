@@ -22,7 +22,7 @@ const URL = '/api/post';
 
 @Component({
     selector: 'jhi-material-dialog',
-    templateUrl: './material-dialog.component.html'
+    templateUrl: './material-dialog.component.html',
 })
 
 export class MaterialDialogComponent implements OnInit {
@@ -37,7 +37,8 @@ export class MaterialDialogComponent implements OnInit {
     imageDefault: string;
     token: string;
     uploader: any;
-    maxFileSize = 10 * 1024 * 1024;
+    itemCode: string;
+    maxFileSize = 25 * 1024 * 1024;
     allowedMimeType = ['image/png', 'image/gif', 'video/mp4', 'image/jpeg'];
 
     constructor(
@@ -52,29 +53,55 @@ export class MaterialDialogComponent implements OnInit {
     }
 
     ngOnInit() {
+        var itemTypeId = null;
+        if(this.material.id){
+            this.specificationObj = JSON.parse(this.material.specification);
+            this.imageDefault= this.material.imgUrl;
+            itemTypeId = this.material.itemTypeId;
+        }else{
+            this.imageDefault= "/images/no-preview-available.png";
+            this.specificationObj = {"spe01" : "","spe02" : "","spe03" : "","spe04" : "","spe05" : "",
+                "spe06" : "","spe07" : "","spe08" : "","spe09" : "","spe10" : ""};
+        }
+        this.isSaving = false;
+        this.itemTypeService.query()
+            .subscribe(
+                (res: ResponseWrapper) => { 
+                    this.itemtypes = res.json;
+                    //Update thuyetlv
+                    if(itemTypeId != null){
+                        this.onChangeItem(itemTypeId);
+                    }
+                }, 
+                (res: ResponseWrapper) => this.onError(res.json)
+            );
+            
+        
+        //
         //ThuyetLV
-        this.imageDefault= "/images/no-preview-available.png";
-        console.log(this.imageDefault);
+        this.itemCode = "";        
+            
+        
         
         this.token = this.localStorage.retrieve('authenticationToken') || this.sessionStorage.retrieve('authenticationToken');
-    console.log("---token: " + this.token);
+        console.log("---token: " + this.token);
     
-    this.uploader = new FileUploader({
-        url: URL,
-        headers: [{name:'Authorization', value:'Bearer ' + this.token}],
-        autoUpload: true,
-            maxFileSize: this.maxFileSize,
-            allowedMimeType: this.allowedMimeType,
-//            filters: [{
-//                    name: 'extension',
-//                    fn: (item: any): boolean => {
-//                        console.log(item.name);
-//                        const fileExtension = item.name.slice(item.name.lastIndexOf('.') + 1).toLowerCase();
-//                        return fileExtension === 'csv' ;
-//                    }
-//                }
-//            ]
-    });
+        this.uploader = new FileUploader({
+            url: URL,
+            headers: [{name:'Authorization', value:'Bearer ' + this.token}],
+            autoUpload: true,
+//            maxFileSize: this.maxFileSize,
+//            allowedMimeType: this.allowedMimeType,
+    //            filters: [{
+    //                    name: 'extension',
+    //                    fn: (item: any): boolean => {
+    //                        console.log(item.name);
+    //                        const fileExtension = item.name.slice(item.name.lastIndexOf('.') + 1).toLowerCase();
+    //                        return fileExtension === 'csv' ;
+    //                    }
+    //                }
+    //            ]
+        });
     
         this.uploader.onCompleteItem = (item:any, response:any, status:any, headers:any) => {
             try{
@@ -82,69 +109,25 @@ export class MaterialDialogComponent implements OnInit {
                 console.log("ImageUpload:uploaded:", item, status);
                 var obj = JSON.parse(response);
                 console.log(obj.map.fileName);
-                this.imageDefault= "/" + obj.map.fileName;
+                this.imageDefault= obj.map.url;
+                this.material.imgUrl = obj.map.url;
+                
+                this.removeAllFile();
+                return;
+            }catch(c){
+                console.error(c);
+                return;
+            }
+        };
+        this.uploader.onErrorItem = (item:any, response:any, status:any, headers:any) => {
+            try{
+                //Handle
+                console.log("-----onErrorItem----");
+                console.log(response);
             }catch(c){
                 console.error(c);
             }
         };
-        
-        console.log("-------tabs------");
-        
-    this.tabs = [
-      {
-        title: 'Tab 1 324',
-        active: true,
-        form: {
-          options: {},
-          fields: [
-            {
-              key: 'email',
-              type: 'input',
-              label: 'Username',
-              value: "",
-              templateOptions: {
-                label: 'Username',
-                type: 'email',
-                placeholder: 'Email address',
-                required: true
-              }
-            }
-          ]
-        }
-      },
-      {
-        title: 'Tab 2',
-        form: {
-          options: {},
-          fields: [
-            {
-              key: 'firstName',
-              type: 'input',
-              label: 'First Name',
-              value: "",
-              templateOptions: {
-                label: 'First Name',
-                required: true
-              }
-            },
-            {
-              key: 'lastName',
-              type: 'input',
-              label: 'Last Name',
-              value: "",
-              templateOptions: {
-                label: 'Last Name',
-                required: true
-              }
-            }
-          ] 
-        }
-      }
-    ];
-    //End
-        this.isSaving = false;
-        this.itemTypeService.query()
-            .subscribe((res: ResponseWrapper) => { this.itemtypes = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
 
     clear() {
@@ -152,6 +135,8 @@ export class MaterialDialogComponent implements OnInit {
     }
 
     save() {
+        console.log(this.specificationObj);
+        this.material.specification = JSON.stringify(this.specificationObj);
         this.isSaving = true;
         if (this.material.id !== undefined) {
             this.subscribeToSaveResponse(
@@ -186,22 +171,82 @@ export class MaterialDialogComponent implements OnInit {
     }
     
     //ThuyetLV
+    specificationItemObj: any;
+    specificationObj: any;
+    
+    identifyItemType(index,item){
+        console.log(item);
+      //do what ever logic you need to come up with the unique identifier of your item in loop, I will just return the object id.
+      return item.id;
+    }
+     
+    initItemType() {
+        this.itemCode = "";
+        this.specificationItemObj = {"spe01" : "","spe02" : "","spe03" : "","spe04" : "","spe05" : "",
+            "spe06" : "","spe07" : "","spe08" : "","spe09" : "","spe10" : ""};
+//        this.specificationObj = {"spe01" : "","spe02" : "","spe03" : "","spe04" : "","spe05" : "",
+//            "spe06" : "","spe07" : "","spe08" : "","spe09" : "","spe10" : ""};
+    }
+    
+    onChangeItem(newValue):void {
+        console.log("---------onChangeItem: " + newValue);
+        console.log("---------this.itemtypes: " + this.itemtypes);
+        if(this.itemtypes){
+            if(newValue){
+                this.itemtypes.forEach(function (eachObj) {
+                    if(eachObj.id == newValue){
+                        console.log(eachObj);
+                        this.itemCode = eachObj.completeCode;
+                        this.specificationItemObj = JSON.parse(eachObj.specification);
+                        this.updateCompleteCode();
+                    }
+                  }, this);            
+            }else{
+                this.initItemType();
+                this.updateCompleteCode();
+            }
+        }else{
+            this.initItemType();
+            this.updateCompleteCode();
+        }
+    }
+    
+    updateCompleteCode(){
+        if(this.itemCode != ""){
+            if(this.material && this.material.code){
+                this.material.completeCode = (this.itemCode + "." + this.material.code).toUpperCase();
+            }
+        }else{
+            this.material.completeCode = this.material.code.toUpperCase();;
+        }
+    }
+    
+    onChangeCode(newValue):void {
+        this.material.code = newValue;
+        this.updateCompleteCode();
+    }
     
     
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
- 
-  public fileOverBase(e:any):void {
-    this.hasBaseDropZoneOver = e;
-  }
- 
-  public fileOverAnother(e:any):void {
-    this.hasAnotherDropZoneOver = e;
-  }
-  
-  onFileSelected () {
-    this.uploader.uploadAll();
-  }
+    public hasBaseDropZoneOver:boolean = false;
+    public hasAnotherDropZoneOver:boolean = false;
+
+    public fileOverBase(e:any):void {
+      this.hasBaseDropZoneOver = e;
+    }
+
+    public fileOverAnother(e:any):void {
+      this.hasAnotherDropZoneOver = e;
+    }
+
+    removeAllFile () {
+      for(var i=0; i<this.uploader.queue.length; i++){
+            this.uploader.queue[i].remove();
+        }
+    }
+    onFileSelected () {
+        //this.removeAllFile();
+        this.uploader.uploadAll();
+    }
 }
 
 @Component({

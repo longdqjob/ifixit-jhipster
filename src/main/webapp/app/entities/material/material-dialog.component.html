@@ -12,7 +12,7 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!material.id">
+        <div class="form-group" [hidden]="true">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="material.id" readonly />
@@ -24,410 +24,408 @@
                     <div class="row">
                         <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.itemType" for="field_itemType">Item Type</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="field_itemType" name="itemType" [(ngModel)]="material.itemTypeId" >
+                            <select class="form-control" id="field_itemType" name="itemType" 
+                                    [(ngModel)]="material.itemTypeId" 
+                                    (ngModelChange)="onChangeItem($event)" >
                                 <option [ngValue]="null"></option>
-                                <option [ngValue]="itemTypeOption.id" *ngFor="let itemTypeOption of itemtypes; trackBy: trackItemTypeById">{{itemTypeOption.id}}</option>
-                            </select>
-                        </div>
+                                <option [ngValue]="itemTypeOption.id" 
+                                    *ngFor="let itemTypeOption of itemtypes; trackBy: itemTypeOption">
+                                    {{itemTypeOption.completeCode}} - {{itemTypeOption.name}}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <!--Item code-->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.code" for="field_code">Code</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="code" id="item_code" readonly="readonly"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--Code-->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.code" for="field_code">Code</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="code" id="field_code"
-                                   [(ngModel)]="material.code" required maxlength="20" />
-                            <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
-                                <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
-                                    This field is required.
-                                </small>
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.code?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
-                                    This field cannot be longer than 20 characters.
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--Complete Code-->
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.completeCode" for="field_completeCode">Complete Code</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="completeCode" id="field_completeCode"
-                                   [(ngModel)]="material.completeCode" required maxlength="20" />
-                            <div [hidden]="!(editForm.controls.completeCode?.dirty && editForm.controls.completeCode?.invalid)">
-                                <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.completeCode?.errors?.required" jhiTranslate="entity.validation.required">
-                                    This field is required.
-                                </small>
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.completeCode?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
-                                    This field cannot be longer than 20 characters.
-                                </small>
-                            </div>
-                        </div>
+        </div>
+        <!--Item code-->
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.itemCode" for="item_code">Item Code</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="item_code" id="item_code" readonly="readonly" 
+                               [(ngModel)]="itemCode"/>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!--ROW-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.name" for="field_name">Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="name" id="field_name"
-                                   [(ngModel)]="material.name" required maxlength="128" />
-                            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
-                                <small class="form-text text-danger"
-                                   [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
-                                    This field is required.
-                                </small>
-                                <small class="form-text text-danger"
-                                       [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 128 }">
-                                    This field cannot be longer than 128 characters.
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
-                    <div class="row">
-                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.location" for="field_location">Location</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="location" id="field_location"
-                                   [(ngModel)]="material.location"  />
+        <!--Code-->
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.code" for="field_code">Code</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="code" id="field_code" (ngModelChange)="onChangeCode($event)"
+                               [(ngModel)]="material.code" required maxlength="20" />
+                        <div [hidden]="!(editForm.controls.code?.dirty && editForm.controls.code?.invalid)">
+                            <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.code?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.code?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                                This field cannot be longer than 20 characters.
+                            </small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!--Complete Code-->
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.completeCode" for="field_completeCode">Complete Code</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="completeCode" id="field_completeCode" readonly="readonly" 
+                               [(ngModel)]="material.completeCode" required maxlength="20" />
+                        <div [hidden]="!(editForm.controls.completeCode?.dirty && editForm.controls.completeCode?.invalid)">
+                            <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.completeCode?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.completeCode?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 20 }">
+                                This field cannot be longer than 20 characters.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ROW-->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.name" for="field_name">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="name" id="field_name"
+                               [(ngModel)]="material.name" required maxlength="128" />
+                        <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                            <small class="form-text text-danger"
+                               [hidden]="!editForm.controls.name?.errors?.required" jhiTranslate="entity.validation.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.controls.name?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 128 }">
+                                This field cannot be longer than 128 characters.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.location" for="field_location">Location</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" name="location" id="field_location"
+                               [(ngModel)]="material.location"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
-        <!--Tabs-->
-        <div class="row">
-            <div class="col-md-12">
-                <ngb-tabset>
-                    <!--Infomation-->
-                    <ngb-tab title="Infomation">
-                        <ng-template ngbTabContent>
-                            <ng-container>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" style="margin-top: 15px;">
-                                            <!--Img-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.imgUrl" for="field_imgUrl">Img Url</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="file" class="form-control" name="imgUrl" id="field_imgUrl"
-                                                               ng2FileSelect [uploader]="uploader" [accept]="allowedMimeType.toString()" (change)="onFileSelected()"/>
-<!--                                                        <input type="text" class="form-control" name="imgUrl" id="field_imgUrl"
-                                                               [(ngModel)]="material.imgUrl"  />-->
+    <!--Tabs-->
+    <div class="row">
+        <div class="col-md-12">
+            <ngb-tabset>
+                <!--Infomation-->
+                <ngb-tab title="Infomation">
+                    <ng-template ngbTabContent>
+                        <ng-container>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <!--Img-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.imgUrl" 
+                                                       for="field_imgUrl">Img Url</label>
+                                                <div class="col-sm-10">
+                                                    <input type="file" class="form-control" name="imgUrl" id="field_imgUrl" 
+                                                           ng2FileSelect [uploader]="uploader" [accept]="allowedMimeType.toString()" 
+                                                           (change)="onFileSelected()"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Unit-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.unit" for="field_unit">Unit</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="unit" id="field_unit"
+                                                           [(ngModel)]="material.unit" required />
+                                                    <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
+                                                        <small class="form-text text-danger"
+                                                           [hidden]="!editForm.controls.unit?.errors?.required" jhiTranslate="entity.validation.required">
+                                                            This field is required.
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--Unit-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.unit" for="field_unit">Unit</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="unit" id="field_unit"
-                                                               [(ngModel)]="material.unit" required />
-                                                        <div [hidden]="!(editForm.controls.unit?.dirty && editForm.controls.unit?.invalid)">
-                                                            <small class="form-text text-danger"
-                                                               [hidden]="!editForm.controls.unit?.errors?.required" jhiTranslate="entity.validation.required">
-                                                                This field is required.
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
 
-                                            <!--Cost-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.cost" for="field_cost">Cost</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="number" class="form-control" name="cost" id="field_cost"
-                                                               [(ngModel)]="material.cost" required />
-                                                        <div [hidden]="!(editForm.controls.cost?.dirty && editForm.controls.cost?.invalid)">
-                                                            <small class="form-text text-danger"
-                                                               [hidden]="!editForm.controls.cost?.errors?.required" jhiTranslate="entity.validation.required">
-                                                                This field is required.
-                                                            </small>
-                                                            <small class="form-text text-danger"
-                                                                   [hidden]="!editForm.controls.cost?.errors?.number" jhiTranslate="entity.validation.number">
-                                                                This field should be a number.
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!--Quantity-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.quantity" for="field_quantity">Quantity</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="number" class="form-control" name="quantity" id="field_quantity"
-                                                               [(ngModel)]="material.quantity" required />
-                                                        <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
-                                                            <small class="form-text text-danger"
-                                                               [hidden]="!editForm.controls.quantity?.errors?.required" jhiTranslate="entity.validation.required">
-                                                                This field is required.
-                                                            </small>
-                                                            <small class="form-text text-danger"
-                                                                   [hidden]="!editForm.controls.quantity?.errors?.number" jhiTranslate="entity.validation.number">
-                                                                This field should be a number.
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!--Description-->
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.description" for="field_description">Description</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="description" id="field_description"
-                                                               [(ngModel)]="material.description" maxlength="255" />
-                                                        <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
-                                                            <small class="form-text text-danger"
-                                                               [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
-                                                                This field cannot be longer than 255 characters.
-                                                            </small>
-                                                        </div>
+                                        <!--Cost-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.cost" for="field_cost">Cost</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" name="cost" id="field_cost"
+                                                           [(ngModel)]="material.cost" required />
+                                                    <div [hidden]="!(editForm.controls.cost?.dirty && editForm.controls.cost?.invalid)">
+                                                        <small class="form-text text-danger"
+                                                           [hidden]="!editForm.controls.cost?.errors?.required" jhiTranslate="entity.validation.required">
+                                                            This field is required.
+                                                        </small>
+                                                        <small class="form-text text-danger"
+                                                               [hidden]="!editForm.controls.cost?.errors?.number" jhiTranslate="entity.validation.number">
+                                                            This field should be a number.
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group" style="display: none;">
-                                            <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.imgPath" for="field_imgPath">Img Path</label>
-                                            <input type="text" class="form-control" name="imgPath" id="field_imgPath"
-                                                   [(ngModel)]="material.imgPath"  />
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="form-control-label" jhiTranslate="ifixitApp.material.imgUrl" for="field_imgUrl">Img Url</label>
-                                            <img [src]="imageDefault">
-                                        </div>
-                                    </div>
 
-                                </div>
-                            </ng-container>
-                        </ng-template>
-                    </ngb-tab>
+                                        <!--Quantity-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.quantity" for="field_quantity">Quantity</label>
+                                                <div class="col-sm-10">
+                                                    <input type="number" class="form-control" name="quantity" id="field_quantity"
+                                                           [(ngModel)]="material.quantity" required />
+                                                    <div [hidden]="!(editForm.controls.quantity?.dirty && editForm.controls.quantity?.invalid)">
+                                                        <small class="form-text text-danger"
+                                                           [hidden]="!editForm.controls.quantity?.errors?.required" jhiTranslate="entity.validation.required">
+                                                            This field is required.
+                                                        </small>
+                                                        <small class="form-text text-danger"
+                                                               [hidden]="!editForm.controls.quantity?.errors?.number" jhiTranslate="entity.validation.number">
+                                                            This field should be a number.
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                    <!--Specifition-->
-                    <ngb-tab title="Specifition">
-                        <ng-template ngbTabContent>
-                            <ng-container>
-                                <div class="row">
-                                    <!--column 1-->
-                                    <div class="col-md-6">
-                                        <div class="form-group" style="margin-top: 15px;">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">01</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!--Description-->
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">02</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">03</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">04</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">05</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--column 2-->
-                                    <div class="col-md-6">
-                                        <div class="form-group" style="margin-top: 10px;">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">06</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">07</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">08</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">09</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-md-1">
-                                                    <label class="form-control-label">10</label>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <input type="text" class="form-control" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" />
+                                                <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.description" for="field_description">Description</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" name="description" id="field_description"
+                                                           [(ngModel)]="material.description" maxlength="255" />
+                                                    <div [hidden]="!(editForm.controls.description?.dirty && editForm.controls.description?.invalid)">
+                                                        <small class="form-text text-danger"
+                                                           [hidden]="!editForm.controls.description?.errors?.maxlength" jhiTranslate="entity.validation.maxlength" translateValues="{ max: 255 }">
+                                                            This field cannot be longer than 255 characters.
+                                                        </small>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </ng-container>
-                        </ng-template>
-                    </ngb-tab>
+                                <div class="col-md-6">
+                                    <div class="form-group" style="display: none;">
+                                        <label class="col-sm-2 control-label" jhiTranslate="ifixitApp.material.imgPath" for="field_imgPath">Img Path</label>
+                                        <input type="text" class="form-control" name="imgPath" id="field_imgPath"
+                                               [(ngModel)]="material.imgPath"  />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" jhiTranslate="ifixitApp.material.imgPreView" for="field_imgPreView">Image PreView</label>
+                                        <img [src]="imageDefault">
+                                    </div>
+                                </div>
 
-                </ngb-tabset>
-            </div>
-        </div>
-        <!--ROW-->
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="ifixitApp.material.specification" for="field_specification">Specification</label>
-                    <input type="text" class="form-control" name="specification" id="field_specification"
-                           [(ngModel)]="material.specification"  />
-                </div>
-            </div>
-
-        </div>
-
-        <!--ROW-->
-        <ngb-tabset>
-            <ngb-tab *ngFor="let tab of tabs" [title]="tab.title">
-                <ng-template ngbTabContent>
-                    <ng-container *ngFor="let field of tab.form.fields">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="form-control-label">Item Type</label>
-                                <input type="text" class="form-control" 
-                                       [(ngModel)]="field.value"  />
                             </div>
-                        </div>
-                    </ng-container>
-                </ng-template>
-            </ngb-tab>
-        </ngb-tabset>
+                        </ng-container>
+                    </ng-template>
+                </ngb-tab>
+
+                <!--Specifition-->
+                <ngb-tab title="Specifition">
+                    <ng-template ngbTabContent>
+                        <ng-container>
+                            <div class="row">
+                                <!--column 1-->
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">01</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe01"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe01" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control"  name="specVal01" 
+                                                       [(ngModel)]="specificationObj.spe01"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">02</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control"  name="spe02"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe02"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal02" 
+                                                       [(ngModel)]="specificationObj.spe02"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">03</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe03"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe03"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal03"
+                                                       [(ngModel)]="specificationObj.spe03"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">04</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe04"  readonly="readonly"  
+                                                       [(ngModel)]="specificationItemObj.spe04"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal04"
+                                                       [(ngModel)]="specificationObj.spe04"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">05</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe05"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe05" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal05" 
+                                                       [(ngModel)]="specificationObj.spe05"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--column 2-->
+                                <div class="col-md-6">
+                                    <div class="form-group" style="margin-top: 10px;">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">06</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe06"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe06" />
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal06" 
+                                                       [(ngModel)]="specificationObj.spe06"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">07</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe07"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe07"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal07" 
+                                                       [(ngModel)]="specificationObj.spe07"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">08</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe08"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe08"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal08" 
+                                                       [(ngModel)]="specificationObj.spe08"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">09</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe09"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe09"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal09" 
+                                                       [(ngModel)]="specificationObj.spe09"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <label class="form-control-label">10</label>
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input type="text" class="form-control" name="spe10"  readonly="readonly" 
+                                                       [(ngModel)]="specificationItemObj.spe10"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" name="specVal10" 
+                                                       [(ngModel)]="specificationObj.spe10"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                </ngb-tab>
+
+            </ngb-tabset>
+        </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
-            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
-        </button>
-        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
-        </button>
-    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+        <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+    <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+    </button>
+</div>
 </form>

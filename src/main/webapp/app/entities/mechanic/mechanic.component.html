@@ -1,10 +1,38 @@
 <div class="row">
-    <div class="col-lg-4">
-        <h2>Nodes</h2>
-        <tree-root [nodes]="nodes"></tree-root>
-    </div>
+    <div class="col-lg-3">
+        <h3>treeNode Company</h3>
+        <tree-root [nodes]="treeData" [options]="options">
+            <ng-template #treeNodeFullTemplate
+                let-node
+                let-index="index"
+                let-templates="templates">
+                <div
+                    [class]="node.getClass()"
+                    [class.tree-node]="true"
+                    [class.tree-node-expanded]="node.isExpanded && node.hasChildren"
+                    [class.tree-node-collapsed]="node.isCollapsed && node.hasChildren"
+                    [class.tree-node-leaf]="node.isLeaf"
+                    [class.tree-node-active]="node.isActive"
+                    [class.tree-node-focused]="node.isFocused">
 
-    <div class="col-lg-8">
+                    <tree-node-drop-slot
+                        *ngIf="index === 0"
+                        [dropIndex]="node.index"
+                        [node]="node.parent">
+                    </tree-node-drop-slot>
+
+                    <tree-node-wrapper [node]="node" [index]="index" [templates]="templates" (dblclick)="onDblclick(node)">
+                    </tree-node-wrapper>
+
+                    <tree-node-children [node]="node" [templates]="templates">
+                    </tree-node-children>
+                    <tree-node-drop-slot [dropIndex]="node.index + 1" [node]="node.parent">
+                    </tree-node-drop-slot>
+                </div>
+            </ng-template>
+        </tree-root>
+    </div>
+    <div class="col-lg-9">
         <div>
             <h2>
                 <span jhiTranslate="ifixitApp.mechanic.home.title">Mechanics</span>
@@ -24,16 +52,11 @@
                     <thead>
                         <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
                             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.mechanic.code">Code</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="code"><span jhiTranslate="ifixitApp.mechanic.code">Code</span></th>
                             <th jhiSortBy="completeCode"><span jhiTranslate="ifixitApp.mechanic.completeCode">Complete Code</span> <span class="fa fa-sort"></span></th>
                             <th jhiSortBy="name"><span jhiTranslate="ifixitApp.mechanic.name">Name</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="description"><span jhiTranslate="ifixitApp.mechanic.description">Description</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="note"><span jhiTranslate="ifixitApp.mechanic.note">Note</span> <span class="fa fa-sort"></span></th>
                             <th jhiSortBy="since"><span jhiTranslate="ifixitApp.mechanic.since">Since</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="specification"><span jhiTranslate="ifixitApp.mechanic.specification">Specification</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="location"><span jhiTranslate="ifixitApp.mechanic.location">Location</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="imgUrl"><span jhiTranslate="ifixitApp.mechanic.imgUrl">Img Url</span> <span class="fa fa-sort"></span></th>
-                            <th jhiSortBy="imgPath"><span jhiTranslate="ifixitApp.mechanic.imgPath">Img Path</span> <span class="fa fa-sort"></span></th>
+                            <th jhiSortBy="location"><span jhiTranslate="ifixitApp.mechanic.location">Location</span></th>
                             <th jhiSortBy="itemTypeId"><span jhiTranslate="ifixitApp.mechanic.itemType">Item Type</span> <span class="fa fa-sort"></span></th>
                             <th jhiSortBy="mechanicTypeId"><span jhiTranslate="ifixitApp.mechanic.mechanicType">Mechanic Type</span> <span class="fa fa-sort"></span></th>
                             <th jhiSortBy="companyId"><span jhiTranslate="ifixitApp.mechanic.company">Company</span> <span class="fa fa-sort"></span></th>
@@ -46,26 +69,21 @@
                             <td>{{mechanic.code}}</td>
                             <td>{{mechanic.completeCode}}</td>
                             <td>{{mechanic.name}}</td>
-                            <td>{{mechanic.description}}</td>
-                            <td>{{mechanic.note}}</td>
                             <td>{{mechanic.since | date:'mediumDate'}}</td>
-                            <td>{{mechanic.specification}}</td>
                             <td>{{mechanic.location}}</td>
-                            <td>{{mechanic.imgUrl}}</td>
-                            <td>{{mechanic.imgPath}}</td>
                             <td>
                                 <div *ngIf="mechanic.itemTypeId">
-                                    <a [routerLink]="['../item-type', mechanic.itemTypeId  ]" >{{mechanic.itemTypeId}}</a>
+                                    <a [routerLink]="['../item-type', mechanic.itemTypeId  ]" >{{mechanic.itemTypeName}}</a>
                                 </div>
                             </td>
                             <td>
                                 <div *ngIf="mechanic.mechanicTypeId">
-                                    <a [routerLink]="['../mechanic-type', mechanic.mechanicTypeId  ]" >{{mechanic.mechanicTypeId}}</a>
+                                    <a [routerLink]="['../mechanic-type', mechanic.mechanicTypeId  ]" >{{mechanic.mechanicTypeName}}</a>
                                 </div>
                             </td>
                             <td>
                                 <div *ngIf="mechanic.companyId">
-                                    <a [routerLink]="['../company', mechanic.companyId  ]" >{{mechanic.companyId}}</a>
+                                    <a [routerLink]="['../company', mechanic.companyId  ]" >{{mechanic.companyName}}</a>
                                 </div>
                             </td>
                             <td class="text-right">

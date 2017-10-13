@@ -11,10 +11,11 @@ import { IfixitEntityModule } from './entities/entity.module';
 
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
-import { TreeModule } from 'angular-tree-component';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 
 //ThuyetLV
+import { TreeModule, TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions } from 'angular-tree-component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 import {
@@ -39,7 +40,8 @@ import {
         IfixitAccountModule,
         IfixitEntityModule, 
         // jhipster-needle-angular-add-module JHipster will add new module here
-        TreeModule
+        TreeModule,
+        FileUploadModule
     ],
     declarations: [
         JhiMainComponent,

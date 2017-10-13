@@ -85,8 +85,9 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private Instant resetDate = null;
 
     @ManyToOne
-//    @Column(name = "company_id")
     private Company company;
+    @ManyToOne
+    private GroupEngineer groupEngineer;
 
     public Company getCompany() {
         return company;
@@ -94,6 +95,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public GroupEngineer getGroupEngineer() {
+        return groupEngineer;
+    }
+
+    public void setGroupEngineer(GroupEngineer groupEngineer) {
+        this.groupEngineer = groupEngineer;
     }
 
     @JsonIgnore

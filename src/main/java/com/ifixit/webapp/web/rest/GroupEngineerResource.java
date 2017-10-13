@@ -124,4 +124,14 @@ public class GroupEngineerResource {
         groupEngineerService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    //Add
+    @GetMapping("/group-engineers/all")
+    @Timed
+    public ResponseEntity<List<GroupEngineerDTO>> getAllGrpEngineers(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of GroupEngineers");
+        Page<GroupEngineerDTO> page = groupEngineerService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/group-engineers/all");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

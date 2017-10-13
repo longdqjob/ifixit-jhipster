@@ -7,8 +7,7 @@ import { IfixitSharedModule } from '../../shared';
 import { TreeItemComponent } from '../common/treeItem.component';
 import { DropdownTreeviewModule } from 'ng2-dropdown-treeview';
 
-//ThuyetLV
-import { FileSelectDirective } from 'ng2-file-upload';
+import { FileUploadModule } from "ng2-file-upload";
 
 import {
     MaterialService,
@@ -31,6 +30,7 @@ const ENTITY_STATES = [
 
 @NgModule({
     imports: [
+        FileUploadModule,
         IfixitSharedModule,
         RouterModule.forRoot(ENTITY_STATES, { useHash: true }),
         DropdownTreeviewModule.forRoot()
@@ -42,8 +42,7 @@ const ENTITY_STATES = [
         MaterialDeleteDialogComponent,
         MaterialPopupComponent,
         MaterialDeletePopupComponent,
-        TreeItemComponent,
-        FileSelectDirective
+        TreeItemComponent
     ],
     entryComponents: [
         MaterialComponent,

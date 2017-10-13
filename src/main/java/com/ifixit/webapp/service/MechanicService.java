@@ -1,6 +1,8 @@
 package com.ifixit.webapp.service;
 
+import com.ifixit.webapp.service.dto.MaterialDTO;
 import com.ifixit.webapp.service.dto.MechanicDTO;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,25 +20,29 @@ public interface MechanicService {
     MechanicDTO save(MechanicDTO mechanicDTO);
 
     /**
-     *  Get all the mechanics.
+     * Get all the mechanics.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     Page<MechanicDTO> findAll(Pageable pageable);
 
     /**
-     *  Get the "id" mechanic.
+     * Get the "id" mechanic.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     MechanicDTO findOne(Long id);
 
     /**
-     *  Delete the "id" mechanic.
+     * Delete the "id" mechanic.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     void delete(Long id);
+
+    //ThuyetLV Add
+    public MechanicDTO getData(Long id);
+    Page<MechanicDTO> getMechanics(List<Long> listSys, Pageable pageable);
 }

@@ -16,6 +16,15 @@ export class Mechanic implements BaseEntity {
         public itemTypeId?: number,
         public mechanicTypeId?: number,
         public companyId?: number,
+        //Add
+        public itemTypeCode?: number,
+        public itemTypeName?: number,
+        public itemTypeSpe?: number,
+        public mechanicTypeCode?: number,
+        public mechanicTypeName?: number,
+        public companyCode?: number,
+        public companyName?: number,
+        
     ) {
     }
 }

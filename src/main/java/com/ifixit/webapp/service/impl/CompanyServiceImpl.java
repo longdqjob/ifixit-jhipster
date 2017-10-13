@@ -86,6 +86,12 @@ public class CompanyServiceImpl implements CompanyService {
         companyRepository.delete(id);
     }
 
+    //ThuyetLV Add
+    @Override
+    public List<Long> getAllId() {
+        return companyRepository.getAllId();
+    }
+    
     @Override
     public String getChild(Long id) {
         log.debug("Request to get getChild");

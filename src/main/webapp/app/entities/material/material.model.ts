@@ -15,6 +15,7 @@ export class Material implements BaseEntity {
         public imgPath?: string,
         public specification?: string,
         public itemTypeId?: number,
+//        public itemTypeName?: string,
     ) {
     }
 }

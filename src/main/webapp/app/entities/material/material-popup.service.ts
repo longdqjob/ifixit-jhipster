@@ -43,14 +43,19 @@ export class MaterialPopupService {
         console.log("--------materialModalRef---------");
 //        const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static'});
         const modalRef = this.modalService.open(component, { size: 'lg', backdrop: 'static', windowClass: 'modal-xxl' });
+        console.log("--------open---------");
         modalRef.componentInstance.material = material;
+        console.log("--------material---------");
         modalRef.result.then((result) => {
-            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
+            console.log("--------then---------");
+            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: false });
             this.ngbModalRef = null;
         }, (reason) => {
-            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: true });
+        console.log("--------then---------");
+            this.router.navigate([{ outlets: { popup: null }}], { replaceUrl: false });
             this.ngbModalRef = null;
         });
+        console.log("--------modalRef---------");
         return modalRef;
     }
 }

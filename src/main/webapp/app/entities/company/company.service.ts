@@ -8,6 +8,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
 export class CompanyService {
+    
 
     private resourceUrl = SERVER_API_URL + 'api/companies';
 
@@ -69,5 +70,65 @@ export class CompanyService {
     private convert(company: Company): Company {
         const copy: Company = Object.assign({}, company);
         return copy;
+    }
+    
+    //ThuyetLV
+    getTree(req?: any): Observable<ResponseWrapper> {
+        const options = createRequestOption(req);
+        if(req){
+            return this.http.get(`${this.resourceUrl}/getTrees/${req}`, options)
+                .map((res: Response) => this.convertResponse(res));
+        }else{
+            return this.http.get(this.resourceUrl + "/getTrees/sdf", options)
+                .map((res: Response) => this.convertResponse(res));    
+        }
+    }
+    getTreePromise(req?: any): Promise<any> {
+        const options = createRequestOption(req);
+        
+        let promise = new Promise((resolve, reject) => {
+        if(!req){
+            req  = "adf";
+        }
+        let apiURL = `${this.resourceUrl}/getTrees/${req}`;
+        this.http.get(apiURL)
+            .toPromise()
+            .then(
+                res => { // Success
+                    console.log(res.json());
+                    resolve(res.json());
+                },
+                msg => { // Error
+                    reject(msg);
+                }
+            );
+        });
+        return promise;
+    }
+    getService(req?: any): Promise<any> {
+        const options = createRequestOption(req);
+        if(req){
+            return this.http
+                .get(`${this.resourceUrl}/getTrees/${req}`, options)
+                .toPromise()
+                .then(this.extractData)
+                .catch(this.handleError);
+        }else{
+            return this.http
+                .get(`${this.resourceUrl}/getTrees/sdf`, options)
+                .toPromise()
+                .then(this.extractData)
+                .catch(this.handleError);
+        }
+    }
+
+    private extractData(res: Response) {
+        let body = res.json();
+        return body || {};
+    }
+
+    private handleError(error: any): Promise<any> {
+        console.error('An error occurred', error);
+        return Promise.reject(error.message || error);
     }
 }

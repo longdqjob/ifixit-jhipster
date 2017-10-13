@@ -12,6 +12,8 @@ import { IfixitStockItemModule } from './stock-item/stock-item.module';
 import { IfixitManHoursModule } from './man-hours/man-hours.module';
 import { IfixitUserExtraModule } from './user-extra/user-extra.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
+//ThuyetLV: Add upload file
+//import { FileSelectDirective } from 'ng2-file-upload';
 
 @NgModule({
     imports: [

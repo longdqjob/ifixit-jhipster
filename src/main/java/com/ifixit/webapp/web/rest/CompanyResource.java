@@ -212,8 +212,8 @@ public class CompanyResource {
         return responseEntity;
     }
 
-    @RequestMapping(value = "/findTopProducts/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> findTopProducts(@PathVariable("id") Optional<String> id) throws JSONException {
+    @RequestMapping(value = "/companies/getTrees/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getTrees(@PathVariable("id") Optional<String> id) throws JSONException {
         log.debug("REST request to getfindTopProducts of Companies " + id);
         Long idReq = null;
         if (id == null || StringUtils.isBlank(id.get()) || !StringUtils.isNumeric(id.get())) {
@@ -229,6 +229,13 @@ public class CompanyResource {
                 } else {
                     log.debug("-------getCompany: " + user.getCompany().getId() + " - " + user.getCompany().getName());
                     idReq = user.getCompany().getId();
+                    List<CompanyDTO> listCompany = new ArrayList<>(1);
+                    listCompany.add(companyService.findOne(idReq));
+                    Gson gson = new Gson();
+                    ResponseEntity<String> responseEntity = new ResponseEntity<>(gson.toJson(listCompany),
+                            new HttpHeaders(),
+                            HttpStatus.OK);
+                    return responseEntity;
                 }
             } catch (Exception ex) {
                 log.error("ERROR findTopProducts: ", ex);

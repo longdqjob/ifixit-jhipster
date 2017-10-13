@@ -5,6 +5,7 @@ import com.ifixit.webapp.domain.GroupEngineer;
 import com.ifixit.webapp.repository.GroupEngineerRepository;
 import com.ifixit.webapp.service.dto.GroupEngineerDTO;
 import com.ifixit.webapp.service.mapper.GroupEngineerMapper;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -12,13 +13,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 /**
  * Service Implementation for managing GroupEngineer.
  */
 @Service
 @Transactional
-public class GroupEngineerServiceImpl implements GroupEngineerService{
+public class GroupEngineerServiceImpl implements GroupEngineerService {
 
     private final Logger log = LoggerFactory.getLogger(GroupEngineerServiceImpl.class);
 
@@ -46,24 +46,24 @@ public class GroupEngineerServiceImpl implements GroupEngineerService{
     }
 
     /**
-     *  Get all the groupEngineers.
+     * Get all the groupEngineers.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
     public Page<GroupEngineerDTO> findAll(Pageable pageable) {
         log.debug("Request to get all GroupEngineers");
         return groupEngineerRepository.findAll(pageable)
-            .map(groupEngineerMapper::toDto);
+                .map(groupEngineerMapper::toDto);
     }
 
     /**
-     *  Get one groupEngineer by id.
+     * Get one groupEngineer by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Override
     @Transactional(readOnly = true)
@@ -74,13 +74,26 @@ public class GroupEngineerServiceImpl implements GroupEngineerService{
     }
 
     /**
-     *  Delete the  groupEngineer by id.
+     * Delete the groupEngineer by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     @Override
     public void delete(Long id) {
         log.debug("Request to delete GroupEngineer : {}", id);
         groupEngineerRepository.delete(id);
     }
+
+    //Add
+    @Override
+    public List<Long> getAllId() {
+        return groupEngineerRepository.getAllId();
+    }
+
+    @Override
+    public String getChild(Long id) {
+        log.debug("Request to get getChild: " + id);
+        return groupEngineerRepository.getChild(id);
+    }
+
 }

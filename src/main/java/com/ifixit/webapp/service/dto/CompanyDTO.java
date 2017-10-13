@@ -3,6 +3,7 @@ package com.ifixit.webapp.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * A DTO for the Company entity.
@@ -147,6 +148,8 @@ public class CompanyDTO implements Serializable {
     public void setParentCode(String parentCode) {
         this.parentCode = parentCode;
     }
+    
+    boolean hasChildren = true;
 
     public CompanyDTO(Long id, String code, String completeCode, String name, String description, Integer state, Long parentId, String parentName, String parentCode, String child) {
         this.id = id;
@@ -159,6 +162,11 @@ public class CompanyDTO implements Serializable {
         this.parentName = parentName;
         this.parentCode = parentCode;
         this.child = child;
+        if(StringUtils.isBlank(child)){
+            this.hasChildren = false;
+        }else{
+            this.hasChildren = true;
+        }
     }
 
     public CompanyDTO() {

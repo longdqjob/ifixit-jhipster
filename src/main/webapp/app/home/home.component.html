@@ -1,5 +1,28 @@
 <div class="row">
     <div class="col-md-3">
+        <h3>treeNodeFullTemplate</h3>
+        <tree-root id="tree2" [focused]="true" [nodes]="nodes2">
+            <ng-template #treeNodeFullTemplate let-node let-index="index" let-templates="templates">
+                <div class="tree-node">
+                    <input type="checkbox" [checked]="node.isActive" (change)="node.toggleActivated(true)" />
+                    <tree-node-expander [node]="node"></tree-node-expander>
+                    <div
+                        class="node-content-wrapper"
+                        [class.node-content-wrapper-active]="node.isActive"
+                        [class.node-content-wrapper-focused]="node.isFocused"
+                        (click)="node.toggleActivated(true)">
+                        <span [class]="node.data.className + 'Index'">{{ index }}</span>
+                        <span [class]="node.data.className" [class.name]="true">{{ node.data.name }}</span>
+                    </div>
+                    <tree-node-children [node]="node" [templates]="templates"></tree-node-children>
+                </div>
+            </ng-template>
+        </tree-root>
+    </div>
+</div>
+<br/><br/><br/>
+<div class="row">
+    <div class="col-md-3">
         <span class="hipster img-fluid rounded"></span>
     </div>
     <div class="col-md-9">
